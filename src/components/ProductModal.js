@@ -15,7 +15,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   })
 
   useEffect(() => {
-    if (type == 'create'){
+    if (type === 'create'){
       setTempData({
         "title": "",
         "category": "",
@@ -41,7 +41,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         ...tempData,
         [name]: Number(value)
       })
-    }else if(name =='is_enabled') {
+    }else if(name === 'is_enabled') {
       setTempData({
         ...tempData,
         [name]: +e.target.checked //boolean
@@ -68,16 +68,14 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
           data: tempData
         }
       );
+      console.log(res);
       closeProductModal();
       getProducts();
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data.message[0]);
     }
   }
 
-
-  const url = 'https://ec-course-api.hexschool.io'
-  const path = 'andywang'
   const uploadFile = async (file) => {
     if (!file) {
       return
