@@ -10,7 +10,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     "unit": "",
     "description": "",
     "content": "",
-    "is_enabled": 1,
+    "is_enabled": 0,
     "imageUrl": "",
   })
 
@@ -24,7 +24,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         "unit": "",
         "description": "",
         "content": "",
-        "is_enabled": 1,
+        "is_enabled": 0,
         "imageUrl": "",
       })
     } else{
