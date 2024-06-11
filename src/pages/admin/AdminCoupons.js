@@ -64,62 +64,67 @@ function AdminCoupons() {
         closeModal={closeModal} 
         getCoupons={getCoupons}
         tempCoupon={tempCoupon}
-        type={type} />
+        type={type} 
+      />
       <DeleteModal 
         close={closeDeleteModal}
         text={tempCoupon.title}
         handleDelete={deleteCoupon}
-        id={tempCoupon.id} />
-      <h3>優惠券列表</h3>
-      <hr />
-      <div className='text-end'>
-        <button type='button' className='btn btn-primary btn-sm'
-          onClick={() => openCouponModal('create', {})}>
+        id={tempCoupon.id} 
+      />
+      <h3 className='text-xl font-semibold'>優惠券列表</h3>
+      <hr className='my-4' />
+      <div className='text-right mb-4'>
+        <button 
+          type='button' 
+          className='bg-blue-500 text-white text-sm px-4 py-2 rounded hover:bg-blue-600'
+          onClick={() => openCouponModal('create', {})}
+        >
           建立新優惠券
         </button>
       </div>
-      <table className='table'>
-        <thead>
+      <table className='min-w-full bg-white shadow-md rounded-lg overflow-hidden mb-4'>
+        <thead className='bg-gray-100'>
           <tr>
-            <th scope='col'>標題</th>
-            <th scope='col'>折扣</th>
-            <th scope='col'>到期日</th>
-            <th scope='col'>優惠碼</th>
-            <th scope='col'>啟用狀態</th>
-            <th scope='col'>編輯</th>
+            <th className='py-2 px-4'>標題</th>
+            <th className='py-2 px-4'>折扣%</th>
+            <th className='py-2 px-4'>到期日</th>
+            <th className='py-2 px-4'>優惠碼</th>
+            <th className='py-2 px-4'>啟用狀態</th>
+            <th className='py-2 px-4'>編輯</th>
           </tr>
         </thead>
         <tbody>
-          {coupons.map((product) => {
-            return (
-              <tr key={product.id}>
-                <td>{product.title}</td>
-                <td>{product.percent}</td>
-                <td>{new Date(product.due_date).toDateString()}</td>
-                <td>{product.code}</td>
-                <td>{product.is_enabled ? '啟用' : '未啟用'}</td>
-                <td>
-                  <button type='button' className='btn btn-primary btn-sm'
-                    onClick={() => openCouponModal('edit', product)}>
-                    編輯
-                  </button>
-                  <button
-                    type='button'
-                    className='btn btn-outline-danger btn-sm ms-2'
-                    onClick={() => openDeleteModal(product)}
-                  >
-                    刪除
-                  </button>
-                </td>
-              </tr>
-            )
-          })}
-          
+          {coupons.map((product) => (
+            <tr key={product.id} className='border-b'>
+              <td className='py-2 px-4'>{product.title}</td>
+              <td className='py-2 px-4'>{product.percent}</td>
+              <td className='py-2 px-4'>{new Date(product.due_date).toDateString()}</td>
+              <td className='py-2 px-4'>{product.code}</td>
+              <td className='py-2 px-4'>{product.is_enabled ? '啟用' : '未啟用'}</td>
+              <td className='py-2 px-4 flex space-x-2'>
+                <button 
+                  type='button' 
+                  className='bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600'
+                  onClick={() => openCouponModal('edit', product)}
+                >
+                  編輯
+                </button>
+                <button
+                  type='button'
+                  className='bg-red-500 text-white text-sm px-3 py-1 rounded hover:bg-red-600'
+                  onClick={() => openDeleteModal(product)}
+                >
+                  刪除
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      <Pagination pagination={pagination} changePage={getCoupons}></Pagination>
+      <Pagination pagination={pagination} changePage={getCoupons} />
     </div>
-  )
-}
+  );
+};
 
 export default AdminCoupons;

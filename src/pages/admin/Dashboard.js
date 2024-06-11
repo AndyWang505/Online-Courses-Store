@@ -32,11 +32,11 @@ function Dashboard() {
 
   return (
     <>
-      <nav className='navbar navbar-expand-lg bg-dark'>
-        <div className='container-fluid'>
-          <p className='text-white mb-0'>HEX EATS 後台管理系統</p>
+      <nav className='bg-gray-800'>
+        <div className='container mx-auto flex justify-between items-center p-4'>
+          <h1 className='text-white text-xl mb-0'>後台管理系統</h1>
           <button
-            className='navbar-toggler'
+            className='text-white'
             type='button'
             data-bs-toggle='collapse'
             data-bs-target='#navbarNav'
@@ -47,12 +47,16 @@ function Dashboard() {
             <span className='navbar-toggler-icon' />
           </button>
           <div
-            className='collapse navbar-collapse justify-content-end'
+            className='collapse navbar-collapse justify-end'
             id='navbarNav'
           >
-            <ul className='navbar-nav'>
-              <li className='nav-item'>
-                <button type='button' className='btn btn-sm btn-light' onClick={logout}>
+            <ul className='flex space-x-4'>
+              <li>
+                <button
+                  type='button'
+                  className='btn btn-sm btn-light bg-white text-gray-800 px-4 py-2 rounded-md'
+                  onClick={logout}
+                >
                   登出
                 </button>
               </li>
@@ -60,34 +64,40 @@ function Dashboard() {
           </div>
         </div>
       </nav>
-      <div className='d-flex' style={{ minHeight: 'calc(100vh - 56px)' }}>
-        <div className='bg-light' style={{ width: '200px' }}>
-          <ul className='list-group list-group-flush'>
-            <Link
-              className='list-group-item list-group-item-action py-3'
-              to='/admin/products'
-            >
-              <i className='bi bi-cup-fill me-2' />
-              產品列表
-            </Link>
-            <Link
-              className='list-group-item list-group-item-action py-3'
-              to='/admin/coupons'
-            >
-              <i className='bi bi-ticket-perforated-fill me-2' />
-              優惠卷列表
-            </Link>
-            <Link
-              className='list-group-item list-group-item-action py-3'
-              to='/admin/orders'
-            >
-              <i className='bi bi-receipt me-2' />
-              訂單列表
-            </Link>
+      <div className='flex' style={{ minHeight: 'calc(100vh - 76px)' }}>
+        <div className='bg-gray-100 w-48'>
+          <ul className='list-none p-0'>
+            <li>
+              <Link
+                className='block py-3 px-4 hover:bg-gray-200'
+                to='/admin/products'
+              >
+                <i className='bi bi-cup-fill mr-2' />
+                產品列表
+              </Link>
+            </li>
+            <li>
+              <Link
+                className='block py-3 px-4 hover:bg-gray-200'
+                to='/admin/coupons'
+              >
+                <i className='bi bi-ticket-perforated-fill mr-2' />
+                優惠卷列表
+              </Link>
+            </li>
+            <li>
+              <Link
+                className='block py-3 px-4 hover:bg-gray-200'
+                to='/admin/orders'
+              >
+                <i className='bi bi-receipt mr-2' />
+                訂單列表
+              </Link>
+            </li>
           </ul>
         </div>
-        <div className='w-100'>
-          {token && <Outlet/>}
+        <div className='flex-1'>
+          {token && <Outlet />}
         </div>
       </div>
     </>

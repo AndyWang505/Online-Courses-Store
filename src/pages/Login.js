@@ -29,29 +29,54 @@ function Login() {
     }
   }
   
-  return (<div className="container py-5">
-    <div className="row justify-content-center">
-      <div className="col-md-6">
-        <h2>登入帳號</h2>
-
-        <div className={`alert alert-danger ${loginState.message ? 'd-block' : 'd-none'}`} role="alert">
-          {loginState.message}
+  return (
+    <div className="container mx-auto py-5">
+      <div className="flex justify-center">
+        <div className="w-full max-w-md">
+          <h2 className="text-2xl font-bold mb-4">登入帳號</h2>
+  
+          <div className={`alert alert-danger ${loginState.message ? 'block' : 'hidden'}`} role="alert">
+            {loginState.message}
+          </div>
+          
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              id="email"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              name="username"
+              type="email"
+              placeholder="name@example.com"
+              onChange={handleChange}
+            />
+          </div>
+  
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              密碼
+            </label>
+            <input
+              type="password"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              name="password"
+              id="password"
+              placeholder="password"
+              onChange={handleChange}
+            />
+          </div>
+  
+          <button
+            type="button"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            onClick={submit}
+          >
+            登入
+          </button>
         </div>
-        <div className="mb-2">
-          <label htmlFor="email" className="form-label w-100">
-            Email
-            <input id="email" className="form-control" name="username" type="email" placeholder="Email Address" onChange={handleChange} />
-          </label>
-        </div>
-        <div className="mb-2">
-          <label htmlFor="password" className="form-label w-100">
-            密碼
-            <input type="password" className="form-control"  name="password" id="password" placeholder="name@example.com" onChange={handleChange} />
-          </label>
-        </div>
-        <button type="button" className="btn btn-primary" onClick={submit}>登入</button>
       </div>
     </div>
-  </div>)
+  );  
 }
 export default Login;

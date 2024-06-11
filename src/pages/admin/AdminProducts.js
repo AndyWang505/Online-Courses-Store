@@ -64,60 +64,65 @@ function AdminProducts() {
         closeProductModal={closeProductModal} 
         getProducts={getProducts}
         tempProduct={tempProduct}
-        type={type} />
+        type={type} 
+      />
       <DeleteModal 
         close={closeDeleteModal}
         text={tempProduct.title}
         handleDelete={deleteProduct}
-        id={tempProduct.id} />
-      <h3>產品列表</h3>
-      <hr />
-      <div className='text-end'>
-        <button type='button' className='btn btn-primary btn-sm'
-          onClick={() => openProductModal('create', {})}>
+        id={tempProduct.id} 
+      />
+      <h3 className='text-xl font-semibold'>產品列表</h3>
+      <hr className='my-4' />
+      <div className='text-right mb-4'>
+        <button 
+          type='button' 
+          className='bg-blue-500 text-white text-sm px-4 py-2 rounded hover:bg-blue-600'
+          onClick={() => openProductModal('create', {})}
+        >
           建立新商品
         </button>
       </div>
-      <table className='table'>
-        <thead>
+      <table className='min-w-full bg-white shadow-md rounded-lg overflow-hidden mb-4'>
+        <thead className='bg-gray-100'>
           <tr>
-            <th scope='col'>分類</th>
-            <th scope='col'>名稱</th>
-            <th scope='col'>售價</th>
-            <th scope='col'>啟用狀態</th>
-            <th scope='col'>編輯</th>
+            <th className='py-2 px-4'>分類</th>
+            <th className='py-2 px-4'>課程名稱</th>
+            <th className='py-2 px-4'>售價</th>
+            <th className='py-2 px-4'>啟用狀態</th>
+            <th className='py-2 px-4'>編輯</th>
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => {
-            return (
-              <tr key={product.id}>
-                <td>{product.category}</td>
-                <td>{product.title}</td>
-                <td>{product.price}</td>
-                <td>{product.is_enabled ? '啟用' : '未啟用'}</td>
-                <td>
-                  <button type='button' className='btn btn-primary btn-sm'
-                    onClick={() => openProductModal('edit', product)}>
-                    編輯
-                  </button>
-                  <button
-                    type='button'
-                    className='btn btn-outline-danger btn-sm ms-2'
-                    onClick={() => openDeleteModal(product)}
-                  >
-                    刪除
-                  </button>
-                </td>
-              </tr>
-            )
-          })}
-          
+          {products.map((product) => (
+            <tr key={product.id} className='border-b'>
+              <td className='py-2 px-4'>{product.category}</td>
+              <td className='py-2 px-4'>{product.title}</td>
+              <td className='py-2 px-4'>{product.price}</td>
+              <td className='py-2 px-4'>{product.is_enabled ? '啟用' : '未啟用'}</td>
+              <td className='py-2 px-4 flex space-x-2'>
+                <button 
+                  type='button' 
+                  className='bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600'
+                  onClick={() => openProductModal('edit', product)}
+                >
+                  編輯
+                </button>
+                <button
+                  type='button'
+                  className='bg-red-500 text-white text-sm px-3 py-1 rounded hover:bg-red-600'
+                  onClick={() => openDeleteModal(product)}
+                >
+                  刪除
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      <Pagination pagination={pagination} changePage={getProducts}></Pagination>
+      <Pagination pagination={pagination} changePage={getProducts} />
     </div>
-  )
-}
+  );
+};
 
 export default AdminProducts;
