@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import CouponModal from "../../components/CouponModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
-import { Modal } from "bootstrap";
 
 function AdminCoupons() {
   const [coupons, setCoupons] = useState([]);
@@ -12,15 +11,9 @@ function AdminCoupons() {
   const [type, setType] = useState('create');
   const [tempCoupon, setTempCoupon] = useState({});
 
-  const couponModal = useRef(null);
-  const deleteModal = useRef(null);
+  const couponModal = document.querySelector('#couponModal');
+  const deleteModal = document.querySelector('#deleteModal');
   useEffect(() => {
-    couponModal.current = new Modal('#couponModal', {
-      backdrop: 'static'
-    });
-    deleteModal.current = new Modal('#deleteModal', {
-      backdrop: 'static'
-    });
     getCoupons();
   }, [])
 
@@ -30,20 +23,36 @@ function AdminCoupons() {
     setPagination(res.data.pagination);
   }
 
+  // Modal Controller
+  function modalShow(modalTarget) {
+    modalTarget.classList.remove('hidden');
+    setTimeout(() => {
+      modalTarget.classList.add('opacity-100');
+    }, 20);
+  }
+
+  function modalHide(modalTarget) {
+    modalTarget.classList.add('opacity-0');
+    modalTarget.classList.remove('opacity-100');
+    setTimeout(() => {
+      modalTarget.classList.add('hidden');
+    }, 300);
+  }
+
   const openCouponModal = (type, item) => {
     setType(type);
     setTempCoupon(item);
-    couponModal.current.show();
+    modalShow(couponModal);
   }
   const closeModal = () => {
-    couponModal.current.hide();
+    modalHide(couponModal);
   }
   const openDeleteModal = (product) => {
     setTempCoupon(product);
-    deleteModal.current.show();
+    modalShow(deleteModal);
   }
   const closeDeleteModal = () => {
-    deleteModal.current.hide();
+    modalHide(deleteModal);
   }
   const deleteCoupon = async (id) => {
     try {
@@ -97,12 +106,12 @@ function AdminCoupons() {
         <tbody>
           {coupons.map((product) => (
             <tr key={product.id} className='border-b'>
-              <td className='py-2 px-4'>{product.title}</td>
-              <td className='py-2 px-4'>{product.percent}</td>
-              <td className='py-2 px-4'>{new Date(product.due_date).toDateString()}</td>
-              <td className='py-2 px-4'>{product.code}</td>
-              <td className='py-2 px-4'>{product.is_enabled ? '啟用' : '未啟用'}</td>
-              <td className='py-2 px-4 flex space-x-2'>
+              <td className='py-2 px-4 text-center'>{product.title}</td>
+              <td className='py-2 px-4 text-center'>{product.percent}</td>
+              <td className='py-2 px-4 text-center'>{new Date(product.due_date).toDateString()}</td>
+              <td className='py-2 px-4 text-center'>{product.code}</td>
+              <td className='py-2 px-4 text-center'>{product.is_enabled ? '啟用' : '未啟用'}</td>
+              <td className='py-2 px-4 flex space-x-2 justify-center'>
                 <button 
                   type='button' 
                   className='bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600'

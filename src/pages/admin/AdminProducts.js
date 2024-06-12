@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductModal from "../../components/ProductModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
-import { Modal } from "bootstrap";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -12,15 +11,9 @@ function AdminProducts() {
   const [type, setType] = useState('create');
   const [tempProduct, setTempProduct] = useState({});
 
-  const productModal = useRef(null);
-  const deleteModal = useRef(null);
+  const productModal = document.querySelector('#productModal');
+  const deleteModal = document.querySelector('#deleteModal');
   useEffect(() => {
-    productModal.current = new Modal('#productModal', {
-      backdrop: 'static'
-    });
-    deleteModal.current = new Modal('#deleteModal', {
-      backdrop: 'static'
-    });
     getProducts();
   }, [])
 
@@ -29,21 +22,36 @@ function AdminProducts() {
     setProducts(productRes.data.products);
     setPagination(productRes.data.pagination);
   }
+  // Modal Controller
+  function modalShow(modalTarget) {
+    modalTarget.classList.remove('hidden');
+    setTimeout(() => {
+      modalTarget.classList.add('opacity-100');
+    }, 20);
+  }
 
+  function modalHide(modalTarget) {
+    modalTarget.classList.add('opacity-0');
+    modalTarget.classList.remove('opacity-100');
+    setTimeout(() => {
+      modalTarget.classList.add('hidden');
+    }, 300);
+  }
+  
   const openProductModal = (type, product) => {
     setType(type);
     setTempProduct(product);
-    productModal.current.show();
+    modalShow(productModal);
   }
   const closeProductModal = () => {
-    productModal.current.hide();
+    modalHide(productModal);
   }
   const openDeleteModal = (product) => {
     setTempProduct(product);
-    deleteModal.current.show();
+    modalShow(deleteModal);
   }
   const closeDeleteModal = () => {
-    deleteModal.current.hide();
+    modalHide(deleteModal);
   }
   const deleteProduct = async (id) => {
     try {
@@ -51,7 +59,8 @@ function AdminProducts() {
       console.log(res);
       if(res.data.success) {
         getProducts();
-        deleteModal.current.hide();
+        deleteModal.classList.remove('d-block');
+        deleteModal.classList.add('d-none');
       }
     }catch(error) {
       console.error(error);
@@ -96,11 +105,11 @@ function AdminProducts() {
         <tbody>
           {products.map((product) => (
             <tr key={product.id} className='border-b'>
-              <td className='py-2 px-4'>{product.category}</td>
-              <td className='py-2 px-4'>{product.title}</td>
-              <td className='py-2 px-4'>{product.price}</td>
-              <td className='py-2 px-4'>{product.is_enabled ? '啟用' : '未啟用'}</td>
-              <td className='py-2 px-4 flex space-x-2'>
+              <td className='py-2 px-4 text-center'>{product.category}</td>
+              <td className='py-2 px-4 text-center'>{product.title}</td>
+              <td className='py-2 px-4 text-center'>{product.price}</td>
+              <td className='py-2 px-4 text-center'>{product.is_enabled ? '啟用' : '未啟用'}</td>
+              <td className='py-2 px-4 flex space-x-2 justify-center'>
                 <button 
                   type='button' 
                   className='bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600'
