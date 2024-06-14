@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
 
 function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
   const [tempData, setTempData] = useState({
@@ -10,6 +11,7 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
     code: '',
   });
   const [date, setDate] = useState(new Date());
+  const [, dispatch] = useContext(MessageContext);
 
   useEffect(() => {
     if (type === 'create'){
@@ -29,7 +31,8 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    if(['price', 'origin_price'].includes(name)) {
+    console.log(value);
+    if(['percent'].includes(name)) {
       setTempData({
         ...tempData,
         [name]: Number(value)
@@ -65,10 +68,12 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
         },
       );
       console.log(res);
+      handleSuccessMessage(dispatch, res);
       closeModal();
       getCoupons();
     } catch (error) {
-      console.error(error.response.data.message[0]);
+      console.error(error.response.data.message);
+      handleErrorMessage(dispatch, error);
     }
   };
 
@@ -124,7 +129,7 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
                 <label className='block text-sm font-medium text-gray-700' htmlFor='percent'>
                   折扣（%）
                   <input
-                    type='text'
+                    type='number'
                     name='percent'
                     id='percent'
                     placeholder='請輸入折扣（%）'

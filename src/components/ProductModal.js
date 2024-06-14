@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
 
 function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   const [tempData, setTempData] = useState({
@@ -12,7 +13,8 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     "content": "",
     "is_enabled": 0,
     "imageUrl": "",
-  })
+  });
+  const [, dispatch] = useContext(MessageContext);
 
   useEffect(() => {
     if (type === 'create'){
@@ -31,7 +33,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
       setTempData(tempProduct);
     }
     console.log(type, tempProduct);
-  }, [type, tempProduct])
+  }, [type, tempProduct]);
 
   const handleChange = (e) => {
     console.log(e);
@@ -52,7 +54,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         [name]: value
       })
     }
-  }
+  };
 
   const submit = async() => {
     try {
@@ -69,12 +71,14 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         }
       );
       console.log(res);
+      handleSuccessMessage(dispatch, res);
       closeProductModal();
       getProducts();
     } catch (error) {
-      console.error(error.response.data.message[0]);
+      console.error(error.response.data.message);
+      handleErrorMessage(dispatch, error);
     }
-  }
+  };
 
   const uploadFile = async (file) => {
     if (!file) {
@@ -88,7 +92,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     } catch(error){
       console.error(error);
     }
-  }
+  };
 
   return (
     <div

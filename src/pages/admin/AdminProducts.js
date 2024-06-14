@@ -59,8 +59,7 @@ function AdminProducts() {
       console.log(res);
       if(res.data.success) {
         getProducts();
-        deleteModal.classList.remove('d-block');
-        deleteModal.classList.add('d-none');
+        modalHide(deleteModal);
       }
     }catch(error) {
       console.error(error);

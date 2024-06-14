@@ -60,7 +60,7 @@ function AdminCoupons() {
       // console.log(res);
       if(res.data.success) {
         getCoupons();
-        deleteModal.current.hide();
+        modalHide(deleteModal);
       }
     }catch(error) {
       console.error(error);
