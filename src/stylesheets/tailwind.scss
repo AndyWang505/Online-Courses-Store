@@ -1,0 +1,8 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.active {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}

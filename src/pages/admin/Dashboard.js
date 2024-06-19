@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, Link } from 'react-router-dom';
+import { Outlet, useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useReducer } from 'react';
 import Message from '../../components/Message';
@@ -38,65 +38,49 @@ function Dashboard() {
       <Message />
       <nav className='bg-gray-800'>
         <div className='container mx-auto flex justify-between items-center p-4'>
-          <h1 className='text-white text-xl mb-0'>後台管理系統</h1>
-          <button
-            className='text-white'
-            type='button'
-            data-bs-toggle='collapse'
-            data-bs-target='#navbarNav'
-            aria-controls='navbarNav'
-            aria-expanded='false'
-            aria-label='Toggle navigation'
-          >
-            <span className='navbar-toggler-icon' />
-          </button>
-          <div
-            className='collapse navbar-collapse justify-end'
-            id='navbarNav'
-          >
-            <ul className='flex space-x-4'>
-              <li>
-                <button
-                  type='button'
-                  className='btn btn-sm btn-light bg-white text-gray-800 px-4 py-2 rounded-md'
-                  onClick={logout}
-                >
-                  登出
-                </button>
-              </li>
-            </ul>
-          </div>
+          <h1 className='text-white text-xl font-bold mb-0'>後台管理系統</h1>
+          <ul className='flex space-x-4'>
+            <li>
+              <button
+                type='button'
+                className='bg-white text-gray-800 px-4 py-2 rounded-md hover:text-gray-700 hover:bg-gray-50'
+                onClick={logout}
+              >
+                登出
+              </button>
+            </li>
+          </ul>
         </div>
       </nav>
       <div className='flex' style={{ minHeight: 'calc(100vh - 76px)' }}>
         <div className='bg-gray-100 w-48'>
           <ul className='list-none p-0'>
             <li>
-              <Link
+              <NavLink
                 className='block py-3 px-4 hover:bg-gray-200'
                 to='/admin/products'
               >
                 <i className='bi bi-cup-fill mr-2' />
                 產品列表
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
+              <NavLink
                 className='block py-3 px-4 hover:bg-gray-200'
                 to='/admin/coupons'
               >
                 <i className='bi bi-ticket-perforated-fill mr-2' />
                 優惠卷列表
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
+              <NavLink
                 className='block py-3 px-4 hover:bg-gray-200'
                 to='/admin/orders'
               >
                 <i className='bi bi-receipt mr-2' />
                 訂單列表
-              </Link>
+              </NavLink >
             </li>
           </ul>
         </div>

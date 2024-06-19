@@ -1,7 +1,7 @@
 function DeleteModal({close, text, handleDelete, id}) {
   return (
     <div
-      className='fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex justify-center items-center hidden'
+      className='fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex justify-center items-center hidden opacity-0 transition-opacity duration-300 ease-in-out'
       id='deleteModal'
     >
       <div className='bg-white w-96 rounded-lg'>
