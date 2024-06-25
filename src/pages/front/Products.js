@@ -1,92 +1,47 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 
 function Products() {
-  const [, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [pagination , setPagination] = useState({});
-
-  useEffect(() => {
-    getProducts();
-  }, [])
 
   const getProducts = async(page = 1) => {
     const productRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`);
+    console.log(products);
     setProducts(productRes.data.products);
     setPagination(productRes.data.pagination);
   }
 
+  useEffect(() => {
+    getProducts(1);
+  }, [])
+
   return (
     <>
       <main>
-        <div className="container mx-auto mb-7 mt-5 p-6">
-          <h2>購買課程</h2>
+        <div className="container max-w-7xl mx-auto mb-7 mt-5 p-6">
+          <h2 className="text-4xl font-bold text-center my-6">購買課程</h2>
           <div className="flex flex-wrap -mx-3">
-            <div className="w-full sm:w-1/2 md:w-1/4 px-3 mb-4">
-              <div className="card border-0 relative mb-4">
-                <img src="https://images.unsplash.com/photo-1591843336741-9f1238f66758?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80" className="w-full rounded-none" alt="..." />
-                <a className="text-dark">
-                  <i className="far fa-heart absolute right-4 top-4"></i>
-                </a>
-                <div className="card-body p-0">
-                  <h4 className="mb-0 mt-3"><a>Lorem ipsum</a></h4>
-                  <p className="card-text text-gray-500 mb-0">Lorem ipsum dolor sit amet</p>
-                  <p className="text-gray-500 mt-3">NT$ 1,200</p>
-                </div>
-              </div>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 px-3 mb-4">
-              <div className="card border-0 relative mb-4">
-                <img src="https://images.unsplash.com/photo-1591843336741-9f1238f66758?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80" className="w-full rounded-none" alt="..." />
-                <a className="text-dark">
-                  <i className="far fa-heart absolute right-4 top-4"></i>
-                </a>
-                <div className="card-body p-0">
-                  <h4 className="mb-0 mt-3"><a>Lorem ipsum</a></h4>
-                  <p className="card-text text-gray-500 mb-0">Lorem ipsum dolor sit amet</p>
-                  <p className="text-gray-500 mt-3">NT$ 1,200</p>
-                </div>
-              </div>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 px-3 mb-4">
-              <div className="card border-0 relative mb-4">
-                <img src="https://images.unsplash.com/photo-1591843336741-9f1238f66758?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80" className="w-full rounded-none" alt="..." />
-                <a className="text-dark">
-                  <i className="far fa-heart absolute right-4 top-4"></i>
-                </a>
-                <div className="card-body p-0">
-                  <h4 className="mb-0 mt-3"><a>Lorem ipsum</a></h4>
-                  <p className="card-text text-gray-500 mb-0">Lorem ipsum dolor sit amet</p>
-                  <p className="text-gray-500 mt-3">NT$ 1,200</p>
-                </div>
-              </div>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 px-3 mb-4">
-              <div className="card border-0 relative mb-4">
-                <img src="https://images.unsplash.com/photo-1591843336741-9f1238f66758?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80" className="w-full rounded-none" alt="..." />
-                <a className="text-dark">
-                  <i className="far fa-heart absolute right-4 top-4"></i>
-                </a>
-                <div className="card-body p-0">
-                  <h4 className="mb-0 mt-3"><a>Lorem ipsum</a></h4>
-                  <p className="card-text text-gray-500 mb-0">Lorem ipsum dolor sit amet</p>
-                  <p className="text-gray-500 mt-3">NT$ 1,200</p>
-                </div>
-              </div>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 px-3 mb-4">
-              <div className="card border-0 relative mb-4">
-                <img src="https://images.unsplash.com/photo-1591843336741-9f1238f66758?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80" className="w-full rounded-none" alt="..." />
-                <a className="text-dark">
-                  <i className="far fa-heart absolute right-4 top-4"></i>
-                </a>
-                <div className="card-body p-0">
-                  <h4 className="mb-0 mt-3"><a>Lorem ipsum</a></h4>
-                  <p className="card-text text-gray-500 mb-0">Lorem ipsum dolor sit amet</p>
-                  <p className="text-gray-500 mt-3">NT$ 1,200</p>
-                </div>
-              </div>
-            </div>
+            {products.map((product) => {
+              return (
+                <Link className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-4 p-3 product-hover-link" to={`/product/${product.id}`} key={product.id}>
+                  <div className="mb-4 overflow-hidden">
+                    <div className="rounded-md overflow-hidden h-48">
+                      <img src={product.imageUrl} className="w-full rounded-md border border-inherit object-cover product-hover-img" alt={product.title} />
+                    </div>
+                    <div className="card-body p-0">
+                      <h4 className="text-lg font-bold mb-0 mt-3">
+                        {product.title}
+                      </h4>
+                      <p className="text-base text-gray-500 mt-3 mb-0 max-h-20 line-clamp-3">{product.content}</p>
+                      <p className="text-lg text-gray-500 font-bold mt-3">NT$ {product.price}</p>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
           <Pagination pagination={pagination} changePage={getProducts} />
         </div>

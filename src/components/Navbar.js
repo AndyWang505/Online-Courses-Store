@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 function Navbar() {
   return (
     <header className="bg-green-200 sticky top-0 z-10 shadow-sm w-full">
-      <div className="xl:container mx-auto flex justify-between p-6">
+      <div className="container mx-auto flex justify-between p-6">
         <NavLink className={({ isActive }) => 'default-class'} to="/">LOGO</NavLink>
         <nav>
           <ul className="flex">
@@ -20,7 +20,9 @@ function Navbar() {
             </li>
           </ul>
         </nav>
-        <FontAwesomeIcon icon={faCartShopping} className='text-xl' />
+        <NavLink className={({ isActive }) => 'default-class'}>
+          <FontAwesomeIcon icon={faCartShopping} className='text-xl' />
+        </NavLink>
       </div>
     </header>
   )

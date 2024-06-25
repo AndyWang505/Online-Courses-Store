@@ -7,7 +7,7 @@ function Layout() {
     <Navbar />
     <Outlet></Outlet>
     <footer className="bg-gray-800">
-      <div className="xl:container mx-auto flex justify-around text-white text-center p-6">
+      <div className="container mx-auto flex justify-around text-white text-center p-6">
         <div>
           <h3>關於</h3>
           <ul>

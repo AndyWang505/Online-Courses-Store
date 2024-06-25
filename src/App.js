@@ -7,6 +7,7 @@ import AdminOrders from './pages/admin/AdminOrders';
 import Layout from './pages/front/Layout';
 import Home from './pages/front/Home';
 import Products from './pages/front/Products';
+import ProductDetail from './pages/front/ProductDetail';
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
       <Routes>
       <Route path="/" element={<Layout />}>
         <Route path='' element={<Home />}></Route>
-        <Route path='/products' element={<Products />}></Route>
+        <Route path='products' element={<Products />}></Route>
+        <Route path='product/:id' element={<ProductDetail />}></Route>
       </Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/admin" element={<Dashboard />}>
