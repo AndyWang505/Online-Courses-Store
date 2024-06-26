@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 
 function Layout() {
@@ -6,7 +6,7 @@ function Layout() {
     <>
     <Navbar />
     <Outlet></Outlet>
-    <footer className="bg-gray-800">
+    <footer className="bg-[#4b3537]">
       <div className="container mx-auto flex justify-around text-white text-center p-6">
         <div>
           <h3>關於</h3>
@@ -27,7 +27,11 @@ function Layout() {
         <div>
           <h3>其他連結</h3>
           <ul>
-            <li>後台</li>
+            <li>
+              <Link to={"/login"}>
+                後台
+              </Link>
+            </li>
             <li>前台</li>
             <li>購物</li>
           </ul>

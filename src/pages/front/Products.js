@@ -22,7 +22,13 @@ function Products() {
     <>
       <main>
         <div className="container max-w-7xl mx-auto mb-7 mt-5 p-6">
-          <h2 className="text-4xl font-bold text-center my-6">購買課程</h2>
+          <h2 className="text-4xl font-bold text-center mb-6">所有課程</h2>
+          <ul className="flex border-b-2 mb-3">
+            <li className="p-3">全部</li>
+            <li className="p-3">程式設計</li>
+            <li className="p-3">美術</li>
+            <li className="p-3">管理</li>
+          </ul>
           <div className="flex flex-wrap -mx-3">
             {products.map((product) => {
               return (
