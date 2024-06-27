@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 
 function ProductDetail() {
   const [product, setProduct] = useState([]);
   // const [cartQuantity, setCartQuantity] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
+  const { getCart } = useOutletContext();
 
   const addToCart = async() => {
     const data = {
@@ -18,8 +19,10 @@ function ProductDetail() {
     setIsLoading(true);
     console.log(data);
     try {
+      // cart api issues: the backend quantity has already been added.
       const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, data);
       console.log(res);
+      getCart();
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -37,14 +40,14 @@ function ProductDetail() {
   }, [id])
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto pb-6 px-6">
       <div
         className="min-h-96 bg-center bg-cover"
         style={{
           backgroundImage: `url(${product.imageUrl})`
         }}
       ></div>
-      <div className="flex flex-wrap justify-between mt-7 mb-7">
+      <div className="flex flex-wrap justify-between mt-7 mb-7 px-6">
         <div className="w-full md:w-7/12">
           <h2 className="mb-0 text-2xl font-bold mb-5">關於課程</h2>
           <h3 className="mb-0 text-xl font-bold mb-3">{product.title}</h3>
