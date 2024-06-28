@@ -1,11 +1,11 @@
 function Home() {
   return (
     <>
-      <main>
+      <main className="min-h-screen">
         <div className="main-bg bg-cover bg-center flex items-center justify-center" style={{ height: `calc(90vh - 72px)` }}>
           <div className="text-white text-center p-8 bg-black bg-opacity-50 rounded-lg">
-            <h1 className="text-4xl font-bold">Welcome</h1>
-            <p className="mt-4 text-lg">This is a sample page with a background image using Tailwind CSS.</p>
+            <h1 className="text-4xl font-bold">LearnSphere 學習天地</h1>
+            <p className="mt-4 text-lg">知識無界限，學習無所不在<br/>在 LearnSphere，我們為您提供多元化的學習資源，讓學習變得簡單而有趣。</p>
           </div>
         </div>
         <div className="container max-w-7xl mx-auto p-6">

@@ -21,7 +21,7 @@ function ProductDetail() {
     try {
       // cart api issues: the backend quantity has already been added.
       const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, data);
-      console.log(res);
+      // console.log(res);
       getCart();
       setIsLoading(false);
     } catch (error) {
@@ -31,7 +31,7 @@ function ProductDetail() {
 
   const getProduct = async(id) => {
     const productRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`);
-    console.log(productRes);
+    // console.log(productRes);
     setProduct(productRes.data.product);
   }
 
@@ -40,7 +40,7 @@ function ProductDetail() {
   }, [id])
 
   return (
-    <div className="container mx-auto pb-6 px-6">
+    <div className="container min-h-screen mx-auto pb-6 px-6">
       <div
         className="min-h-96 bg-center bg-cover"
         style={{
