@@ -3,7 +3,7 @@ import { Link, useOutletContext } from "react-router-dom";
 
 function Cart() {
   const { cartData, getCart } = useOutletContext();
-
+  console.log(cartData.carts);
   const removeCartItem = async(id) => {
     try {
       const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
@@ -17,7 +17,7 @@ function Cart() {
   return (
     <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">
       <h2 className="text-4xl font-bold mb-6">購物車</h2>
-      {cartData.carts.length > 0 ? (
+      {cartData?.carts && cartData.carts.length > 0 ? (
         <div className="flex">
           <div className="w-2/3">
             <div className="pt-6 px-6 rounded-md bg-neutral-50 drop-shadow">
