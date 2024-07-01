@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import { useOutletContext } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { Input, Select, CheckboxRadio } from "../../components/FormElements";
 import axios from "axios";
 
@@ -12,9 +12,11 @@ function Checkout() {
   } = useForm({
     mode: 'onTouched',
   });
+  const navigate = useNavigate();
 
   const onSubmit = async(data) => {
-    const { name, email, tel, address } = data;    
+    const { name, email, tel, address } = data;
+    console.log(name, email, tel, address);
     const form = {
       data: {
         user: {
@@ -30,108 +32,148 @@ function Checkout() {
       form,
     );
     console.log(res);
+    navigate(`/success/${res.data.orderId}`);
   };
 
   return (
     <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">
-      <h2 className="text-xl font-bold mb-4">結帳</h2>
-      <h2 className="text-xl font-bold mb-4">帳單地址</h2>
+      {cartData.carts.length > 0 ? (
+        <>
+          <h2 className="text-4xl font-bold mb-6">結帳</h2>
+          <div className="flex">
+            <form action="" className="w-2/3 p-6 rounded-md bg-neutral-50 drop-shadow" onSubmit={handleSubmit(onSubmit)}>
+              <h2 className="text-xl font-bold mb-4">購買人資訊</h2>
+              <Input
+                id="name"
+                type="text"
+                errors={errors}
+                labelText="名稱"
+                register={register}
+                rules={{
+                  required: '名稱為必填',
+                  maxLength: {
+                    value: 10,
+                    message: '名稱長度不超過 10',
+                  },
+                }}
+              />
+              
+              <Input
+                id="address"
+                type="text"
+                errors={errors}
+                labelText="地址"
+                register={register}
+                rules={{ required: '地址為必填項' }}
+              />
+              
+              <Input
+                id="tel"
+                type="tel"
+                errors={errors}
+                labelText="電話"
+                register={register}
+                rules={{
+                  required: '電話為必填',
+                  minLength: {
+                    value: 6,
+                    message: '電話不少於 6 碼',
+                  },
+                  maxLength: {
+                    value: 12,
+                    message: '電話不超過 12 碼',
+                  },
+                }}
+              />
+              
+              <Input
+                id="email"
+                type="email"
+                errors={errors}
+                labelText="Email"
+                register={register}
+                rules={{
+                  required: 'Email 為必填',
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: 'Email 格式不正確',
+                  },
+                }}
+              />
 
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          id="name"
-          type="text"
-          errors={errors}
-          labelText="名稱"
-          register={register}
-          rules={{
-            required: '名稱為必填',
-            maxLength: {
-              value: 10,
-              message: '名稱長度不超過 10',
-            },
-          }}
-        />
-        
-        <Input
-          id="address"
-          type="text"
-          errors={errors}
-          labelText="地址"
-          register={register}
-          rules={{ required: '地址為必填項' }}
-        />
-        
-        <Input
-          id="phone"
-          type="tel"
-          errors={errors}
-          labelText="電話"
-          register={register}
-          rules={{
-            required: '電話為必填',
-            minLength: {
-              value: 6,
-              message: '電話不少於 6 碼',
-            },
-            maxLength: {
-              value: 12,
-              message: '電話不超過 12 碼',
-            },
-          }}
-        />
-        
-        <Input
-          id="email"
-          type="email"
-          errors={errors}
-          labelText="信箱"
-          register={register}
-          rules={{
-            required: 'Email 為必填',
-            pattern: {
-              value: /^\S+@\S+$/i,
-              message: 'Email 格式不正確',
-            },
-          }}
-        />
+              <h2 className="text-xl font-bold py-6 border-t">付款方式</h2>
+              
+              <Select
+                id="paymentMethod"
+                labelText="付款方式"
+                register={register}
+                errors={errors}
+                rules={{ required: '付款方式為必填項' }}
+              >
+                <option value="creditCard">信用卡</option>
+                <option value="linepay">Line Pay</option>
+                <option value="bankTransfer">ATM轉帳</option>
+                <option value="storepay">超商付款</option>
+              </Select>
 
-        <h2 className="text-xl font-bold mb-4">付款方式</h2>
-        
-        <Select
-          id="paymentMethod"
-          labelText="付款方式"
-          register={register}
-          errors={errors}
-          rules={{ required: '付款方式為必填項' }}
-        >
-          <option value="creditCard">信用卡</option>
-          <option value="paypal">PayPal</option>
-          <option value="bankTransfer">銀行轉帳</option>
-        </Select>
+              <CheckboxRadio
+                type='checkbox'
+                name='isCheckForm'
+                id='isCheckForm'
+                value={true}
+                register={register}
+                errors={errors}
+                labelText="確認同意本文件"
+                rules={{ required: '必須勾選確認同意本文件' }}
+              ></CheckboxRadio>
 
-        <CheckboxRadio
-          type='checkbox'
-          name='isCheckForm'
-          id='isCheckForm'
-          value={true}
-          register={register}
-          errors={errors}
-          rules={{ required: true }}
-          labelText="確認同意本文件"
-        ></CheckboxRadio>
+              <button type="submit" className="bg-orange-400 text-white p-2 rounded">
+                送出
+              </button>
 
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          提交
-        </button>
-
-      </form>
-      帳單地址
-      付款方式
-      訂單詳細資料
-      勾選確認
-
-      右邊完成結帳
+            </form>
+            <div className="w-1/3 h-2/4 p-6 rounded-md bg-neutral-50 ml-6 drop-shadow">
+              <h2 className="text-xl font-bold mb-4">訂單資訊</h2>
+              <ul>
+                  {cartData?.carts?.map((item) => {
+                    return (
+                      <li className="flex w-full py-6 border-t" key={item.id}>
+                        <div className="flex w-2/3">
+                          <div className="mr-3">
+                            <img
+                              src={item.product.imageUrl}
+                              className="w-50 h-24 rounded-md border"
+                              alt={item.product.title}
+                            />
+                          </div>
+                          <h3 className="w-full mb-0 mt-3 text-md font-bold">
+                            <div className="inline-block p-1 text-sm border rounded-md bg-slate-300 text-rose-500 font-bold mr-3">{item.product.category}</div>
+                            <br />
+                            {item.product.title}
+                          </h3>
+                        </div>
+                        <div className="flex w-1/3 justify-between items-center">
+                          <div className="w-full">
+                            <p>NT$ {item.final_total}</p>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div>總額 NT$ {cartData.final_total}</div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="text-center">您未加入任何商品</p>
+          <div className="flex justify-between p-6">
+            <Link to="/products" className="">← 前往購物</Link>
+            <Link to="/">返回首頁 →</Link>
+          </div>
+        </>
+      )}
     </div>
   )
 }

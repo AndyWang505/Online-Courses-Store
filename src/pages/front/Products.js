@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [pagination , setPagination] = useState({});
+  // const [categories, setCategories] = useState([]);
 
   const getProducts = async(page = 1) => {
-    const productRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`);
-    console.log(products);
-    setProducts(productRes.data.products);
-    setPagination(productRes.data.pagination);
+    try {
+      const productRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`);
+      setProducts(productRes.data.products);
+      // console.log(products);
+      setPagination(productRes.data.pagination);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -22,12 +27,24 @@ function Products() {
     <>
       <main>
         <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">
-          <h2 className="text-4xl font-bold text-center mb-6">所有課程</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">所有課程</h2>
           <ul className="flex border-b-2 mb-3">
-            <li className="p-3">全部</li>
-            <li className="p-3">程式設計</li>
-            <li className="p-3">美術</li>
-            <li className="p-3">管理</li>
+            {/* {categories.map(category => {
+              return (
+                <li className="rounded-md" key={category}>
+                  <NavLink className="p-3 rounded-md block" to={category}>{category}</NavLink>
+                </li>
+              )
+            })} */}
+            <li className="mr-2">
+              <NavLink className="p-3 rounded-t-lg block">全部</NavLink>
+            </li>
+            <li className="mr-2">
+              <NavLink className="p-3 rounded-t-lg block">程式設計</NavLink>
+            </li>
+            <li className="mr-2">
+              <NavLink className="p-3 rounded-t-lg block">UIUX</NavLink>
+            </li>
           </ul>
           <div className="flex flex-wrap -mx-3">
             {products.map((product) => {
