@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, NavLink } from "react-router-dom";
 import Pagination from "../../components/Pagination";
+// React Loading Skeleton
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [pagination , setPagination] = useState({});
+  const [loading, setLoading] = useState(true);
   // const [categories, setCategories] = useState([]);
 
   const getProducts = async(page = 1) => {
@@ -14,10 +18,13 @@ function Products() {
       setProducts(productRes.data.products);
       // console.log(products);
       setPagination(productRes.data.pagination);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   }
+
+  const skeletonCount = products.length || 8;
 
   useEffect(() => {
     getProducts(1);
@@ -47,8 +54,29 @@ function Products() {
             </li>
           </ul>
           <div className="flex flex-wrap -mx-3">
-            {products.map((product) => {
-              return (
+            {loading ? (
+              Array(skeletonCount).fill().map((_, index) => (
+                <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-4 p-3" key={index}>
+                  <div className="mb-4 overflow-hidden">
+                    <div className="rounded-md overflow-hidden h-48">
+                      <Skeleton height={192} />
+                    </div>
+                    <div className="p-0">
+                      <h3 className="mb-0 mt-3 text-lg font-bold">
+                        <Skeleton width="60%" />
+                      </h3>
+                      <p className="text-base text-gray-500 mt-3 mb-0 max-h-20">
+                        <Skeleton count={3} />
+                      </p>
+                      <div className="flex mt-3 items-baseline">
+                        <Skeleton width="50%" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              products.map((product) => (
                 <Link className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-4 p-3 product-hover-link" to={`/product/${product.id}`} key={product.id}>
                   <div className="mb-4 overflow-hidden">
                     <div className="rounded-md overflow-hidden h-48">
@@ -67,8 +95,8 @@ function Products() {
                     </div>
                   </div>
                 </Link>
-              )
-            })}
+              ))
+            )}
           </div>
           <Pagination pagination={pagination} changePage={getProducts} />
         </div>

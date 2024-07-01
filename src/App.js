@@ -11,6 +11,7 @@ import ProductDetail from './pages/front/ProductDetail';
 import Cart from './pages/front/Cart';
 import Checkout from './pages/front/Checkout';
 import Success from './pages/front/Success';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path='cart' element={<Cart />}></Route>
           <Route path='checkout' element={<Checkout />}></Route>
           <Route path='success/:orderId' element={<Success />}></Route>
+          <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/admin" element={<Dashboard />}>
