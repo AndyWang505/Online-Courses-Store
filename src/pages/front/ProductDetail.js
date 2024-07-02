@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useOutletContext, useParams } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 
 function ProductDetail() {
   const [product, setProduct] = useState([]);
@@ -63,7 +63,15 @@ function ProductDetail() {
         </div>
         <div className="w-full md:w-4/12">
           <div className="flex mt-3">
-            <button type="button" className="bg-orange-300 border rounded-md p-3 w-2/3 mr-3">立即購買</button>
+            <Link className="bg-orange-300 border rounded-md p-3 w-2/3 mr-3 text-center"
+              onClick={() => {
+                addToCart();
+              }}
+              to="/cart"
+              disabled={isLoading}
+            >
+              立即購買
+            </Link>
             <button type="button" className="border rounded-md p-3 w-1/3 hover:bg-neutral-100"
               onClick={() => {
                 addToCart();

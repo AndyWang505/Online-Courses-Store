@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 // React Loading Skeleton
 import Skeleton from 'react-loading-skeleton'
@@ -10,13 +10,16 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [pagination , setPagination] = useState({});
   const [loading, setLoading] = useState(true);
-  // const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const { category } = useParams();
+  const navigate = useNavigate();
 
   const getProducts = async(page = 1) => {
     try {
       const productRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`);
+      const categoriesArr = ["全部", ...new Set(productRes.data.products.map(product => product.category))];
       setProducts(productRes.data.products);
-      // console.log(products);
+      setCategories(categoriesArr);
       setPagination(productRes.data.pagination);
       setLoading(false);
     } catch (error) {
@@ -28,7 +31,15 @@ function Products() {
 
   useEffect(() => {
     getProducts(1);
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if(!category){
+      navigate("/products/全部");
+    }
+  }, [category, navigate]);
+
+  const filteredProducts = category === "全部" ? products : products.filter(product => product.category === category);
 
   return (
     <>
@@ -36,22 +47,13 @@ function Products() {
         <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">
           <h2 className="text-4xl font-bold text-center mb-12">所有課程</h2>
           <ul className="flex border-b-2 mb-3">
-            {/* {categories.map(category => {
+            {categories.map(category => {
               return (
-                <li className="rounded-md" key={category}>
-                  <NavLink className="p-3 rounded-md block" to={category}>{category}</NavLink>
+                <li className="mr-2" key={category}>
+                  <NavLink className="p-3 rounded-t-lg block hover:scale-105" to={category}>{category}</NavLink>
                 </li>
               )
-            })} */}
-            <li className="mr-2">
-              <NavLink className="p-3 rounded-t-lg block">全部</NavLink>
-            </li>
-            <li className="mr-2">
-              <NavLink className="p-3 rounded-t-lg block">程式設計</NavLink>
-            </li>
-            <li className="mr-2">
-              <NavLink className="p-3 rounded-t-lg block">UIUX</NavLink>
-            </li>
+            })}
           </ul>
           <div className="flex flex-wrap -mx-3">
             {loading ? (
@@ -76,7 +78,7 @@ function Products() {
                 </div>
               ))
             ) : (
-              products.map((product) => (
+              filteredProducts.map((product) => (
                 <Link className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-4 p-3 product-hover-link" to={`/product/${product.id}`} key={product.id}>
                   <div className="mb-4 overflow-hidden">
                     <div className="rounded-md overflow-hidden h-48">
