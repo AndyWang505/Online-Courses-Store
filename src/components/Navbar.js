@@ -13,10 +13,10 @@ function Navbar({ cartData }) {
         <nav>
           <ul className="flex h-full">
             <li className="mx-2 rounded-md transform hover:-translate-y-1 hover:bg-neutral-600 hover:bg-opacity-50 navbar navbar-hover">
-              <NavLink className={({ isActive }) => 'default-class block p-3 text-neutral-600 hover:text-slate-50 navbar navbar-hover'}>師資介紹</NavLink>
+              <NavLink className={({ isActive }) => 'default-class block p-3 text-neutral-600 hover:text-slate-50 navbar navbar-hover'} to="/about">關於我們</NavLink>
             </li>
             <li className="mx-2 rounded-md transform hover:-translate-y-1 hover:bg-neutral-600 hover:bg-opacity-50 navbar navbar-hover">
-              <NavLink className={({ isActive }) => 'default-class block p-3 text-neutral-600 hover:text-slate-50 navbar navbar-hover'}>線上直播</NavLink>
+              <NavLink className={({ isActive }) => 'default-class block p-3 text-neutral-600 hover:text-slate-50 navbar navbar-hover'} to="/article">所有文章</NavLink>
             </li>
             <li className="mx-2 rounded-md transform hover:-translate-y-1 hover:bg-neutral-600 hover:bg-opacity-50 navbar navbar-hover">
               <NavLink className={({ isActive }) => 'default-class block p-3 text-neutral-600 hover:text-slate-50 navbar navbar-hover'} to="/products">購買課程</NavLink>

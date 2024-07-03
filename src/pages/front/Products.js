@@ -9,19 +9,44 @@ import 'react-loading-skeleton/dist/skeleton.css'
 function Products() {
   const [products, setProducts] = useState([]);
   const [pagination , setPagination] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const { category } = useParams();
   const navigate = useNavigate();
 
+  const getCategoryArr = async() => {
+    try {
+      const productAllRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`);
+      const categoriesArr = ["全部", ...new Set(productAllRes.data.products.map(product => product.category))];
+      setCategories(categoriesArr);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const getProducts = async(page = 1) => {
     try {
-      const productRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`);
-      const categoriesArr = ["全部", ...new Set(productRes.data.products.map(product => product.category))];
-      setProducts(productRes.data.products);
-      setCategories(categoriesArr);
-      setPagination(productRes.data.pagination);
-      setLoading(false);
+      if(category !== "全部") {
+        const productAllRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`);
+        const filterProducts = productAllRes.data.products.filter(product => product.category === category);
+        const totalPage = Math.ceil(filterProducts.length / 10);
+        const start = (page - 1) * 10;
+        const end = page * 10;
+        setProducts(filterProducts.slice(start, end));
+        // console.log(category);
+        setPagination({
+          category: '',
+          current_page: page,
+          has_pre: page !== 1,
+          has_next: page < totalPage,
+          total_pages: totalPage
+        });
+      }else {
+        const productPageRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`);
+        console.log(productPageRes.data.products);
+        setProducts(productPageRes.data.products);
+        setPagination(productPageRes.data.pagination);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -30,16 +55,17 @@ function Products() {
   const skeletonCount = products.length || 8;
 
   useEffect(() => {
-    getProducts(1);
-  }, []);
-
-  useEffect(() => {
-    if(!category){
-      navigate("/products/全部");
-    }
+    const fetchData = async () => {
+      setLoading(true);
+      await getCategoryArr();
+      await getProducts(1);
+      if (!category) {
+        navigate("/products/全部");
+      }
+      setLoading(false);
+    };
+    fetchData();
   }, [category, navigate]);
-
-  const filteredProducts = category === "全部" ? products : products.filter(product => product.category === category);
 
   return (
     <>
@@ -78,7 +104,7 @@ function Products() {
                 </div>
               ))
             ) : (
-              filteredProducts.map((product) => (
+              products.map((product) => (
                 <Link className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-4 p-3 product-hover-link" to={`/product/${product.id}`} key={product.id}>
                   <div className="mb-4 overflow-hidden">
                     <div className="rounded-md overflow-hidden h-48">
