@@ -38,10 +38,10 @@ function AdminArticles() {
     }, 300);
   }
   
-  const openProductModal = (type, product) => {
-    console.log("admin",tempProduct);
+  const openProductModal = async(type, product) => {
+    const articleRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/article/${product.id}`);
     setType(type);
-    setTempProduct(product);
+    setTempProduct(articleRes.data.article);
     modalShow(articleModal);
   }
   const closeProductModal = () => {
