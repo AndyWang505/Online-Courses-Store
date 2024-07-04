@@ -17,6 +17,7 @@ function OrderModal({ closeProductModal, getOrders, tempOrder }) {
       is_paid: tempOrder.is_paid,
       status: tempOrder.status,
     });
+    console.log(tempOrder);
   }, [tempOrder]);
 
   const handleChange = (e) => {
@@ -37,7 +38,7 @@ function OrderModal({ closeProductModal, getOrders, tempOrder }) {
           ...tempData,
         },
       });
-      console.log(tempData);
+      // console.log(tempData);
       handleSuccessMessage(dispatch, res);
       setIsLoading(false);
       getOrders();
@@ -58,7 +59,7 @@ function OrderModal({ closeProductModal, getOrders, tempOrder }) {
         <div className='relative bg-white rounded-lg shadow-xl w-full max-w-4xl'>
           <div className='flex items-start justify-between p-4 border-b rounded-t'>
             <h1 className='text-lg font-medium text-gray-900' id='exampleModalLabel'>
-              編輯 {tempData.id}
+              {`編輯 ${tempData.id}`}
             </h1>
             <button
               type='button'
@@ -107,7 +108,7 @@ function OrderModal({ closeProductModal, getOrders, tempOrder }) {
             </div>
             <div className='mb-2'>
               <label className='block text-sm font-medium text-gray-700' htmlFor='address'>
-                外送地址
+                地址
                 <input
                   type='text'
                   readOnly
@@ -169,24 +170,6 @@ function OrderModal({ closeProductModal, getOrders, tempOrder }) {
                     付款狀態 ({tempData.is_paid ? '已付款' : '未付款'})
                   </span>
                 </label>
-              </div>
-              <div className='mb-4'>
-                <label className='block text-sm font-medium text-gray-700 mb-1' htmlFor='status'>
-                  外送進度
-                </label>
-                <select
-                  id='status'
-                  className='form-select block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-blue-400 focus:ring focus:ring-blue-200 p-2'
-                  name='status'
-                  value={tempData.status}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                >
-                  <option value={0}>未確認</option>
-                  <option value={1}>已確認</option>
-                  <option value={2}>外送中</option>
-                  <option value={3}>已送達</option>
-                </select>
               </div>
             </div>
           </div>

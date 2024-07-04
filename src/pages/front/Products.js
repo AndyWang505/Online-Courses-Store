@@ -43,7 +43,7 @@ function Products() {
         });
       }else {
         const productPageRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`);
-        console.log(productPageRes.data.products);
+        // console.log(productPageRes.data.products);
         setProducts(productPageRes.data.products);
         setPagination(productPageRes.data.pagination);
       }

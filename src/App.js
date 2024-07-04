@@ -4,6 +4,7 @@ import Dashboard from './pages/admin/Dashboard';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminCoupons from './pages/admin/AdminCoupons';
 import AdminOrders from './pages/admin/AdminOrders';
+import AdminArticles from './pages/admin/AdminArticles';
 import Layout from './pages/front/Layout';
 import Home from './pages/front/Home';
 import About from './pages/front/About';
@@ -37,6 +38,7 @@ function App() {
           <Route path='products' element={<AdminProducts />}></Route>
           <Route path='coupons' element={<AdminCoupons />}></Route>
           <Route path='orders' element={<AdminOrders />}></Route>
+          <Route path='articles' element={<AdminArticles />}></Route>
         </Route>
       </Routes>
     </div>

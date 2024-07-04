@@ -2,17 +2,16 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
 
-function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
+function ArticleModal({ closeProductModal, getProducts, type, tempProduct }) {
   const [tempData, setTempData] = useState({
     "title": "",
-    "category": "",
-    "origin_price": 0,
-    "price": 0,
-    "unit": "",
     "description": "",
+    "image": "",
+    "tag": [],
+    "create_at": Date.now(),
+    "author": "",
     "content": "",
-    "is_enabled": 0,
-    "imageUrl": "",
+    "isPublic": false,
   });
   const [, dispatch] = useContext(MessageContext);
 
@@ -20,14 +19,13 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     if (type === 'create'){
       setTempData({
         "title": "",
-        "category": "",
-        "origin_price": 0,
-        "price": 0,
-        "unit": "",
         "description": "",
+        "image": "",
+        "tag": [],
+        "create_at": Date.now(),
+        "author": "",
         "content": "",
-        "is_enabled": 0,
-        "imageUrl": "",
+        "isPublic": false,
       })
     } else{
       setTempData(tempProduct);
@@ -35,17 +33,12 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   }, [type, tempProduct]);
 
   const handleChange = (e) => {
-    console.log(e);
+    console.log(tempData);
     const { value, name } = e.target;
-    if(['price', 'origin_price'].includes(name)) {
+    if(name === 'isPublic') {
       setTempData({
         ...tempData,
-        [name]: Number(value)
-      })
-    }else if(name === 'is_enabled') {
-      setTempData({
-        ...tempData,
-        [name]: +e.target.checked //boolean
+        [name]: e.target.checked
       })
     }else {
       setTempData({
@@ -57,10 +50,10 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
 
   const submit = async() => {
     try {
-      let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product`;
+      let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/article`;
       let method = 'post';
       if(type === 'edit'){
-        api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product/${tempProduct.id}`;
+        api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/article/${tempProduct.id}`;
         method = 'put';
       }
       const res = await axios[method](
@@ -97,7 +90,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     <div
       className='fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 hidden opacity-0 transition-opacity duration-300 ease-in-out'
       tabIndex='-1'
-      id='productModal'
+      id='articleModal'
     >
       <div className='flex items-center justify-center min-h-screen p-4'>
         <div className='relative bg-white rounded-lg shadow-xl w-full max-w-4xl'>
@@ -133,12 +126,12 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                     輸入圖片網址
                     <input
                       type='text'
-                      name='imageUrl'
+                      name='image'
                       id='image'
                       placeholder='請輸入圖片連結'
                       className='mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2'
                       onChange={handleChange}
-                      value={tempData.imageUrl}
+                      value={tempData.image}
                     />
                   </label>
                 </div>
@@ -155,8 +148,8 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                     />
                   </label>
                   <hr className='my-4' />
-                  {tempData.imageUrl && (
-                    <img src={tempData.imageUrl} className='img-fluid' alt='Not Found imageUrl' />
+                  {tempData.image && (
+                    <img src={tempData.image} className='img-fluid' alt='Not Found imageUrl' />
                   )}
                 </div>
               </div>
@@ -177,60 +170,30 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                   <div className='mb-4'>
-                    <label className='block text-sm font-medium text-gray-700' htmlFor='category'>
-                      分類
+                    <label className='block text-sm font-medium text-gray-700' htmlFor='author'>
+                      作者
                       <input
                         type='text'
-                        id='category'
-                        name='category'
-                        placeholder='請輸入分類'
+                        id='author'
+                        name='author'
+                        placeholder='請輸入作者'
                         className='mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2'
                         onChange={handleChange}
-                        value={tempData.category}
+                        value={tempData.author}
                       />
                     </label>
                   </div>
                   <div className='mb-4'>
-                    <label className='block text-sm font-medium text-gray-700' htmlFor='unit'>
-                      單位
+                    <label className='block text-sm font-medium text-gray-700' htmlFor='tag'>
+                      標籤
                       <input
-                        type='unit'
-                        id='unit'
-                        name='unit'
-                        placeholder='請輸入單位'
+                        type='text'
+                        id='tag'
+                        name='tag'
+                        placeholder='請輸入標籤'
                         className='mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2'
                         onChange={handleChange}
-                        value={tempData.unit}
-                      />
-                    </label>
-                  </div>
-                </div>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                  <div className='mb-4'>
-                    <label className='block text-sm font-medium text-gray-700' htmlFor='origin_price'>
-                      原價
-                      <input
-                        type='number'
-                        id='origin_price'
-                        name='origin_price'
-                        placeholder='請輸入原價'
-                        className='mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2'
-                        onChange={handleChange}
-                        value={tempData.origin_price}
-                      />
-                    </label>
-                  </div>
-                  <div className='mb-4'>
-                    <label className='block text-sm font-medium text-gray-700' htmlFor='price'>
-                      售價
-                      <input
-                        type='number'
-                        id='price'
-                        name='price'
-                        placeholder='請輸入售價'
-                        className='mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2'
-                        onChange={handleChange}
-                        value={tempData.price}
+                        value={tempData.tag}
                       />
                     </label>
                   </div>
@@ -238,7 +201,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                 <hr className='my-4' />
                 <div className='mb-4'>
                   <label className='block text-sm font-medium text-gray-700' htmlFor='description'>
-                    產品描述
+                    描述
                     <textarea
                       id='description'
                       name='description'
@@ -266,18 +229,18 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                   <div className='flex items-center'>
                     <label
                       className='block text-sm font-medium text-gray-700'
-                      htmlFor='is_enabled'
+                      htmlFor='isPublic'
                     >
-                      是否啟用
+                      是否公開
                     </label>
                     <div className='ml-2 flex items-center'>
                       <input
                         type='checkbox'
-                        id='is_enabled'
-                        name='is_enabled'
+                        id='isPublic'
+                        name='isPublic'
                         className='h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500'
                         onChange={handleChange}
-                        checked={!!tempData.is_enabled}
+                        checked={!!tempData.isPublic}
                       />
                     </div>
                   </div>
@@ -307,4 +270,4 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   );  
 };
 
-export default ProductModal;
+export default ArticleModal;

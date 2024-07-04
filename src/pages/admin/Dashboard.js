@@ -82,6 +82,15 @@ function Dashboard() {
                 訂單列表
               </NavLink >
             </li>
+            <li>
+              <NavLink
+                className='block py-3 px-4 hover:bg-gray-200'
+                to='/admin/articles'
+              >
+                <i className='bi bi-receipt mr-2' />
+                文章列表
+              </NavLink >
+            </li>
           </ul>
         </div>
         <div className='flex-1'>

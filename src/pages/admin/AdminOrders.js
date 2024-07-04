@@ -110,7 +110,7 @@ function AdminOrders() {
                   <button 
                     type='button' 
                     className='bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600'
-                    onClick={() => openOrderModal('edit', order)}
+                    onClick={() => openOrderModal(order)}
                   >
                     查看
                   </button>
