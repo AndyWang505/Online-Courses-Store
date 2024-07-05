@@ -8,7 +8,7 @@ function About() {
             <p className="text-xl font-bold mb-6 text-neutral-400">
               歡迎來到 LearnSphere 學習天地！<br />我們致力於提供多元化的學習資源，讓學習變得簡單而有趣。
             </p>
-            <p className="text-neutral-700 ">
+            <p className="text-neutral-700">
               不論你身在何處，都能透過我們的平台自我學習、精進自己。我們的課程涵蓋廣泛的主題，從語言學習到技術培訓，滿足不同學習者的需求。透過創新的學習方式和豐富的教學內容，我們希望激發你的學習熱情，幫助你在職業和個人生活中不斷成長。加入我們，探索無限的學習可能性，讓知識無界限，學習無所不在！
             </p>
           </div>

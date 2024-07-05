@@ -53,7 +53,7 @@ function Dashboard() {
         </div>
       </nav>
       <div className='flex' style={{ minHeight: 'calc(100vh - 76px)' }}>
-        <div className='bg-gray-100 w-48'>
+        <div className='bg-gray-100 w-48 flex flex-col justify-between'>
           <ul className='list-none p-0'>
             <li>
               <NavLink
@@ -92,6 +92,15 @@ function Dashboard() {
               </NavLink >
             </li>
           </ul>
+          <div>
+            <NavLink
+              className='block py-3 px-4 hover:bg-gray-200'
+              to='/'
+            >
+              <i className='bi bi-receipt mr-2' />
+              回前台
+            </NavLink >
+        </div>
         </div>
         <div className='flex-1'>
           {token && <Outlet />}

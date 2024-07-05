@@ -28,7 +28,7 @@ function Cart() {
                 {cartData?.carts?.map((item) => {
                   return (
                     <li className="flex w-full py-6 border-t" key={item.id}>
-                      <a href="/" className="flex w-2/3">
+                      <Link to={`/products`} className="flex w-2/3">
                         <div className="mr-3">
                           <img
                             src={item.product.imageUrl}
@@ -40,7 +40,7 @@ function Cart() {
                           <div className="inline-block p-1 text-sm border rounded-md bg-slate-300 text-rose-500 font-bold mr-3">{item.product.category}</div>
                           {item.product.title}
                         </h3>
-                      </a>
+                      </Link>
                       <div className="flex w-1/3 justify-between items-center">
                         <div className="w-1/2">
                           <p>NT$ {item.final_total}</p>

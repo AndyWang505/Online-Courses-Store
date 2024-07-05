@@ -43,7 +43,7 @@ function Products() {
         });
       }else {
         const productPageRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`);
-        // console.log(productPageRes.data.products);
+        console.log(productPageRes.data);
         setProducts(productPageRes.data.products);
         setPagination(productPageRes.data.pagination);
       }
@@ -108,7 +108,7 @@ function Products() {
                 <Link className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-4 p-3 product-hover-link" to={`/product/${product.id}`} key={product.id}>
                   <div className="mb-4 overflow-hidden">
                     <div className="rounded-md overflow-hidden h-48">
-                      <img src={product.imageUrl} className="w-full rounded-md border border-inherit object-cover product-hover-img" alt={product.title} />
+                      <img src={product.imageUrl} className="w-full h-full rounded-md border border-inherit object-cover product-hover-img" alt={product.title} />
                     </div>
                     <div className="p-0">
                       <h3 className="mb-0 mt-3 text-lg font-bold">

@@ -41,7 +41,11 @@ function AdminArticles() {
   const openProductModal = async(type, product) => {
     const articleRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/article/${product.id}`);
     setType(type);
-    setTempProduct(articleRes.data.article);
+    if(type === "create"){
+      setTempProduct(product);
+    }else {
+      setTempProduct(articleRes.data.article);
+    }
     modalShow(articleModal);
   }
   const closeProductModal = () => {

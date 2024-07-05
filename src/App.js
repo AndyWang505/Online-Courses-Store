@@ -5,6 +5,7 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminCoupons from './pages/admin/AdminCoupons';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminArticles from './pages/admin/AdminArticles';
+import ArticleDetail from './pages/front/ArticleDetail';
 import Layout from './pages/front/Layout';
 import Home from './pages/front/Home';
 import About from './pages/front/About';
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path='about' element={<About />}></Route>
           <Route path='article' element={<Article />}></Route>
+          <Route path='article/:id' element={<ArticleDetail />}></Route>
           <Route path='' element={<Home />}></Route>
           <Route path='products' element={<Products />}>
             <Route path=':category' element={<Products />}></Route>
