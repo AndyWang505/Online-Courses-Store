@@ -115,8 +115,9 @@ function Products() {
                         <div className="inline-block p-1 text-sm border rounded-md bg-slate-300 text-rose-500 font-bold mr-3">{product.category}</div>
                         {product.title}
                       </h3>
-                      <p className="text-base text-gray-500 mt-3 mb-0 max-h-20 line-clamp-3">{product.content}</p>
-                      <div className="flex mt-3 items-baseline">
+                      <p className="text-base text-gray-500 mt-2 mb-0 max-h-20 line-clamp-2">{product.content}</p>
+                      <p className="text-sm text-right text-gray-400 border-b-2 mt-1 px-1 mb-0">by {product.description}</p>
+                      <div className="flex mt-2 items-baseline">
                         <p className="text-lg text-gray-500 font-bold mr-3">NT$ {product.price}</p>
                         <p className="text-sm text-gray-400 line-through font-bold">NT$ {product.origin_price}</p>
                       </div>

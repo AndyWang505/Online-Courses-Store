@@ -1,3 +1,7 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+
 function About() {
   return (
     <main>
@@ -25,7 +29,7 @@ function About() {
           <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
            className="w-full h-96 object-cover" alt="" />
         </div>
-        <div>
+        <div className="mb-24">
           <h3 className="text-4xl text-center font-bold mb-3 text-rose-300 mb-6">
             授課講師
           </h3>
@@ -79,8 +83,23 @@ function About() {
             </li>
           </ul>
         </div>
-        <div>
-          聯絡我們
+        <div className="mb-24 bg-stone-100 rounded-full py-12 px-6 leading-6">
+          <h3 className="text-4xl text-center font-bold mb-3 text-cyan-500 mb-6">
+            聯絡我們
+          </h3>
+          <div className="text-xl text-center">
+            <p className="mb-3">
+              我們很高興您對LearnSphere (學習天地) 感興趣！<br />如果您有任何疑問、建議或需要進一步的幫助，請隨時與我們聯繫。<br />我們的團隊隨時準備好為您提供協助。
+            </p>
+            <p><FontAwesomeIcon icon={faEnvelope} /> learn505@learnsphere.com</p>
+            <p className='mb-2'><FontAwesomeIcon icon={faPhone} /> +123-456-7890</p>
+            <p>關注我們的社交媒體帳號，了解最新的課程資訊和優惠活動。</p>
+            <ul className='flex justify-center items-center space-x-4 mt-6'>
+              <li><FontAwesomeIcon icon={faFacebook} size='2x' /></li>
+              <li><FontAwesomeIcon icon={faInstagram} size='2x' /></li>
+              <li><FontAwesomeIcon icon={faTwitter} size='2x' /></li>
+            </ul>
+          </div>
         </div>
       </div>
     </main>
