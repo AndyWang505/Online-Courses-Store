@@ -19,17 +19,8 @@ function Success() {
   return (
     <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">
       <h2 className="text-4xl font-bold mb-6">購買完成</h2>
-      <div className="flex">
-        <div className="w-2/3">
-          <div className="p-6 rounded-md bg-neutral-50 drop-shadow">
-            感謝您的購買！開始您的學習之旅吧！
-          </div>
-          <div className="flex justify-between p-6">
-            <Link to="/products" className="">← 繼續選購</Link>
-            <Link to="/">返回首頁 →</Link>
-          </div>
-        </div>
-        <div className="w-1/3 h-2/4 p-6 rounded-md bg-neutral-50 ml-6 drop-shadow">
+      <div className="md:flex md:flex-row-reverse">
+        <div className="md:w-1/3 h-2/4 p-6 rounded-md bg-neutral-50 mb-6 md:ml-6 drop-shadow">
           <h2 className="text-xl font-bold mb-4">訂單細節</h2>
           <ul>
             {Object.values(orderData?.products || {}).map((item) => {
@@ -62,6 +53,15 @@ function Success() {
               <p>總計 NT$ {orderData.total}</p>
             </li>
           </ul>
+        </div>
+        <div className="md:w-2/3">
+          <div className="p-6 rounded-md bg-neutral-50 drop-shadow">
+            感謝您的購買！開始您的學習之旅吧！
+          </div>
+          <div className="flex justify-between p-6">
+            <Link to="/products" className="">← 繼續選購</Link>
+            <Link to="/">返回首頁 →</Link>
+          </div>
         </div>
       </div>
     </div>

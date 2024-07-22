@@ -28,17 +28,17 @@ function Layout() {
         <div>
           <h3>關於</h3>
           <ul>
-            <li>leosdf dsfsw.</li>
-            <li>leosdf dsfsw.</li>
-            <li>leosdf dsfsw.</li>
+            <li>我們的使命</li>
+            <li>授課講師</li>
+            <li>聯絡我們</li>
           </ul>
         </div>
         <div>
           <h3>幫助</h3>
           <ul>
-            <li>leosdf dsfsw.</li>
-            <li>leosdf dsfsw.</li>
-            <li>leosdf dsfsw.</li>
+            <li>電話</li>
+            <li>信箱</li>
+            <li>社群</li>
           </ul>
         </div>
         <div>

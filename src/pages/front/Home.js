@@ -134,7 +134,7 @@ function Home() {
           
         </div>
         <div>
-          <div className="mb-24 bg-stone-100 rounded-full py-12 px-6 leading-6">
+          <div className="mb-24 mt-12 bg-stone-100 rounded-full py-12 px-6 leading-6">
             <h3 className="text-4xl text-center font-bold mb-3 text-cyan-500 mb-6">
               聯絡我們
             </h3>
@@ -146,9 +146,15 @@ function Home() {
               <p className='mb-2'><FontAwesomeIcon icon={faPhone} /> +123-456-7890</p>
               <p>關注我們的社交媒體帳號，了解最新的課程資訊和優惠活動。</p>
               <ul className='flex justify-center items-center space-x-4 mt-6'>
-                <li><FontAwesomeIcon icon={faFacebook} size='2x' /></li>
-                <li><FontAwesomeIcon icon={faInstagram} size='2x' /></li>
-                <li><FontAwesomeIcon icon={faTwitter} size='2x' /></li>
+                <li>
+                  <Link><FontAwesomeIcon icon={faFacebook} size='2x' /></Link>
+                  </li>
+                <li>
+                  <Link><FontAwesomeIcon icon={faInstagram} size='2x' /></Link>
+                </li>
+                <li>
+                  <Link><FontAwesomeIcon icon={faTwitter} size='2x' /></Link>
+                </li>
               </ul>
             </div>
           </div>

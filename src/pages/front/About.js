@@ -7,8 +7,8 @@ function About() {
     <main>
       <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-12 p-6">
         <h2 className="text-4xl font-bold mb-12">關於我們</h2>
-        <div className="flex justify-between mb-24">
-          <div className="w-1/2 leading-loose">
+        <div className="block md:flex justify-between mb-24">
+          <div className="mb-6 md:w-1/2 leading-loose">
             <p className="text-xl font-bold mb-6 text-neutral-400">
               歡迎來到 LearnSphere 學習天地！<br />我們致力於提供多元化的學習資源，讓學習變得簡單而有趣。
             </p>
@@ -16,7 +16,7 @@ function About() {
               不論你身在何處，都能透過我們的平台自我學習、精進自己。我們的課程涵蓋廣泛的主題，從語言學習到技術培訓，滿足不同學習者的需求。透過創新的學習方式和豐富的教學內容，我們希望激發你的學習熱情，幫助你在職業和個人生活中不斷成長。加入我們，探索無限的學習可能性，讓知識無界限，學習無所不在！
             </p>
           </div>
-          <div className="w-96 ml-6">
+          <div className="md:w-96 md:ml-6">
             <img src="https://images.unsplash.com/photo-1560523159-94c9d18bcf27?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
              className="overflow-hidden rounded-md" alt="" />
           </div>
@@ -36,7 +36,7 @@ function About() {
           <p className="text-xl text-center mb-3 text-neutral-700 mb-6">
             我們邀請各行各業的專家及世界一流學校的畢業生擔任講者，提供前沿知識和實用技能。
           </p>
-          <ul className="flex justify-between space-x-4">
+          <ul className="md:flex justify-between md:space-x-4">
             <li>
               <div className="w-full px-3 mb-4">
                 <div className="card border-0 relative mb-4">

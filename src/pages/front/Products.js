@@ -33,7 +33,6 @@ function Products() {
         const start = (page - 1) * 10;
         const end = page * 10;
         setProducts(filterProducts.slice(start, end));
-        // console.log(category);
         setPagination({
           category: '',
           current_page: page,
@@ -43,7 +42,6 @@ function Products() {
         });
       }else {
         const productPageRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`);
-        console.log(productPageRes.data);
         setProducts(productPageRes.data.products);
         setPagination(productPageRes.data.pagination);
       }
@@ -72,7 +70,7 @@ function Products() {
       <main>
         <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">
           <h2 className="text-4xl font-bold text-center mb-12">所有課程</h2>
-          <ul className="flex border-b-2 mb-3">
+          <ul className="flex whitespace-nowrap overflow-x-auto md:overflow-hidden border-b-2 mb-3">
             {categories.map(category => {
               return (
                 <li className="mr-2" key={category}>
@@ -81,7 +79,7 @@ function Products() {
               )
             })}
           </ul>
-          <div className="flex flex-wrap -mx-3">
+          <div className="flex flex-wrap mx-3">
             {loading ? (
               Array(skeletonCount).fill().map((_, index) => (
                 <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-4 p-3" key={index}>

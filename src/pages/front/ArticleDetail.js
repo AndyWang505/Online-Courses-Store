@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import Tags from "../../components/Tags";
 
 function ArticleDetail() {
   const [article , setArticle] = useState([]);
   const { id } = useParams();
 
   const getArticle = async (id) => {
-    const articleRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/article/${id}`);
-    setArticle(articleRes.data.article);
-    console.log(articleRes.data.article);
+    try {
+      const articleRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/article/${id}`);
+      setArticle(articleRes.data.article);
+      console.log(articleRes.data.article);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -22,7 +25,7 @@ function ArticleDetail() {
       <div className="container min-h-screen max-w-7xl mx-auto py-12 px-6">
         <h2 className="text-4xl font-bold mb-6">學員回饋</h2>
         <div className="flex">
-          <div className="w-3/4">
+          <div className="w-full">
             <div className="bg-white rounded-md drop-shadow p-6">
               <img src={article.image} alt={article.title} className="w-full"/>
               <h3 className="w-full my-6 text-3xl font-bold">
@@ -44,9 +47,17 @@ function ArticleDetail() {
               <Link to="/">返回首頁 →</Link>
             </div>
           </div>
-          <ul className="w-1/4 p-6">
-            <Tags></Tags>
-          </ul>
+          {/* <ul className="w-1/4 p-6">
+            {tags.map((tag) => {
+              return (
+                <li className="inline-block border bg-white rounded-lg mr-2 mb-2" key={tag}>
+                  <NavLink className="block p-2" to={tag}>
+                    #{tag}
+                  </NavLink>
+                </li>
+              )
+            })}
+          </ul> */}
         </div>
       </div>
     </main>

@@ -2,30 +2,52 @@ import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import Pagination from "../../components/Pagination";
-import Tags from "../../components/Tags";
 // React Loading Skeleton
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-function Article() {
+function Articles() {
   const [articles , setArticles] = useState([]);
+  const [tags, setTags] = useState([]);
   const [pagination , setPagination] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { tag } = useParams();
+
+  const getTagsArr = async() => {
+    try {
+      const tagsAllRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/articles`);
+      const tagsArr = ["全部", ...new Set(tagsAllRes.data.articles.map(article => article.tag))];
+      setTags(tagsArr);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const getArticles = async(page = 1) => {
     try {
-      const articleRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/articles`);
-      setArticles(articleRes.data.articles);
-      const totalPage = Math.ceil(articleRes.data.articles.length / 10);
-      setPagination({
-        category: '',
-        current_page: page,
-        has_pre: page !== 1,
-        has_next: page < totalPage,
-        total_pages: totalPage
-      });
+      if(tag !== "全部") {
+        const articleAllRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/articles`);
+        const filterArticles = articleAllRes.data.articles.filter(article => article.tag === tag);
+        const totalPage = Math.ceil(filterArticles.length / 10);
+        const start = (page - 1) * 10;
+        const end = page * 10;
+        setArticles(filterArticles.slice(start, end));
+        // console.log(category);
+        setPagination({
+          category: '',
+          current_page: page,
+          has_pre: page !== 1,
+          has_next: page < totalPage,
+          total_pages: totalPage
+        });
+      }else {
+        const articlePageRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/articles?page=${page}`);
+        setArticles(articlePageRes.data.articles);
+        setPagination(articlePageRes.data.pagination);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -36,18 +58,33 @@ function Article() {
   useEffect(() => {
     const fetchData = async() => {
       setLoading(true);
+      await getTagsArr();
       await getArticles(1);
+      if(!tag) {
+        navigate("/articles/全部");
+      }
       setLoading(false);
     }
     fetchData();
-  }, []);
+  }, [tag, navigate]);
 
   return (
     <main className="bg-neutral-100">
       <div className="container min-h-screen max-w-7xl mx-auto py-12 px-6">
         <h2 className="text-4xl font-bold mb-6">心得牆</h2>
-        <div className="flex">
-          <div className="w-3/4">
+        <div className="md:flex md:flex-row-reverse">
+          <ul className="md:w-1/4 p-6">
+            {tags.map((tag) => {
+              return (
+                <li className="inline-block border bg-white rounded-lg mr-2 mb-2" key={tag}>
+                  <NavLink className="block p-2" to={tag}>
+                    #{tag}
+                  </NavLink>
+                </li>
+              )
+            })}
+          </ul>
+          <div className="md:w-3/4">
             <ul>
               {loading ? (
                 Array(skeletonCount).fill().map((_, index) => (
@@ -113,13 +150,10 @@ function Article() {
             </ul>
             <Pagination pagination={pagination} changePage={getArticles} />
           </div>
-          <ul className="w-1/4 p-6">
-            <Tags></Tags>
-          </ul>
         </div>
       </div>
     </main>
   )
 }
 
-export default Article;
+export default Articles;

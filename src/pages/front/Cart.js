@@ -18,8 +18,22 @@ function Cart() {
     <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">
       <h2 className="text-4xl font-bold mb-6">購物車</h2>
       {cartData?.carts && cartData.carts.length > 0 ? (
-        <div className="flex">
-          <div className="w-2/3">
+        <div className="md:flex md:flex-row-reverse">
+          <div className="md:w-1/3 h-2/4 p-6 rounded-md bg-neutral-50 mb-6 md:mb-0 md:ml-6 drop-shadow">
+            <h2 className="text-xl font-bold pb-6 border-b">訂單明細</h2>
+            <div className="p-3">
+              <p>優惠券</p>
+              <p>折扣</p>
+              <p>3 件商品</p>
+              <p className="text-lg font-bold">總計NT$ {cartData.final_total}</p>
+            </div>
+            <div className="w-full bg-orange-300 text-center rounded-md">
+              <Link className="block p-3" to={"/checkout"}>
+                前往結帳
+              </Link>
+            </div>
+          </div>
+          <div className="md:w-2/3">
             <div className="pt-6 px-6 rounded-md bg-neutral-50 drop-shadow">
               <div>
                 <h3 className="text-xl font-bold mb-6">商品資訊</h3>
@@ -60,20 +74,6 @@ function Cart() {
             <div className="flex justify-between p-6">
               <Link to="/products" className="">← 繼續選購</Link>
               <Link to="/">返回首頁 →</Link>
-            </div>
-          </div>
-          <div className="w-1/3 h-2/4 p-6 rounded-md bg-neutral-50 ml-6 drop-shadow">
-            <h2 className="text-xl font-bold pb-6 border-b">訂單明細</h2>
-            <div className="p-3">
-              <p>優惠券</p>
-              <p>折扣</p>
-              <p>3 件商品</p>
-              <p className="text-lg font-bold">總計NT$ {cartData.final_total}</p>
-            </div>
-            <div className="w-full bg-orange-300 text-center rounded-md">
-              <Link className="block p-3" to={"/checkout"}>
-                前往結帳
-              </Link>
             </div>
           </div>
         </div>
