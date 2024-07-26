@@ -119,15 +119,15 @@ function Articles() {
                 articles.map((article) => (
                   <li className="w-full rounded-md bg-white drop-shadow mb-6 product-hover-link" key={article.id}>
                     <Link to={`/article/${article.id}`} className="block p-3">
-                      <div className="flex w-full">
-                        <div className="rounded-md overflow-hidden mr-3 w-1/4">
+                      <div className="md:flex w-full">
+                        <div className="rounded-md overflow-hidden md:mr-3 md:w-1/4">
                           <img
                             src={article.image}
                             className="h-full rounded-md border border-inherit object-cover product-hover-img"
                             alt={article.title}
                           />
                         </div>
-                        <div className="w-3/4 px-2">
+                        <div className="md:w-3/4 pt-2 md:pt-0 px-2">
                           <div className="flex mb-2">
                             <h3 className="w-full mb-0 text-xl font-bold">
                               {article.title}

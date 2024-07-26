@@ -46,12 +46,12 @@ function Checkout() {
               <ul>
                   {cartData?.carts?.map((item) => {
                     return (
-                      <li className="flex w-full py-6 border-t" key={item.id}>
-                        <div className="flex w-2/3">
-                          <div className="mr-3">
+                      <li className="md:flex w-full py-6 border-t" key={item.id}>
+                        <div className="md:flex md:w-2/3">
+                          <div className="md:mr-3">
                             <img
                               src={item.product.imageUrl}
-                              className="w-50 h-24 rounded-md border"
+                              className="md:w-50 md:h-24 rounded-md border"
                               alt={item.product.title}
                             />
                           </div>

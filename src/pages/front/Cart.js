@@ -41,12 +41,12 @@ function Cart() {
               <ul>
                 {cartData?.carts?.map((item) => {
                   return (
-                    <li className="flex w-full py-6 border-t" key={item.id}>
-                      <Link to={`/products`} className="flex w-2/3">
-                        <div className="mr-3">
+                    <li className="md:flex w-full py-6 border-t" key={item.id}>
+                      <Link to={`/products`} className="md:flex md:w-2/3">
+                        <div className="md:mr-3">
                           <img
                             src={item.product.imageUrl}
-                            className="w-60 h-28 rounded-md border"
+                            className="md:w-60 md:h-28 rounded-md border"
                             alt={item.product.title}
                           />
                         </div>
@@ -55,11 +55,11 @@ function Cart() {
                           {item.product.title}
                         </h3>
                       </Link>
-                      <div className="flex w-1/3 justify-between items-center">
+                      <div className="flex md:w-1/3 justify-between items-center">
                         <div className="w-1/2">
                           <p>NT$ {item.final_total}</p>
                         </div>
-                        <div className="w-1/2">
+                        <div className="w-1/2 flex flex-row-reverse md:block">
                           <button className="bg-red-500 text-white py-2 px-4 rounded"
                             onClick={() => removeCartItem(item.id)}>
                             刪除
