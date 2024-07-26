@@ -1,20 +1,38 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 
 function Success() {
   const { orderId } = useParams();
   const [ orderData, setOrderData ] = useState({});
+  const { getCart } = useOutletContext();
 
-  const getCart = async(orderId) => {
-    const res = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/order/${orderId}`);
-    console.log(res);
-    setOrderData(res.data.order);
+  const getOrder = async(orderId) => {
+    try {
+      const res = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/order/${orderId}`);
+      console.log(res);
+      setOrderData(res.data.order);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  const paying = useCallback(async (orderId) => {
+    try {
+      const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/pay/${orderId}`);
+      getCart();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  },[getCart]);
+
   useEffect(() => {
-    getCart(orderId);
-  }, [orderId]);
+    getOrder(orderId);
+    if(paying) {
+      paying(orderId);
+    }
+  }, [orderId, paying]);
 
   return (
     <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">

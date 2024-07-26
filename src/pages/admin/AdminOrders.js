@@ -11,9 +11,6 @@ function AdminOrders() {
 
   const orderModal = document.querySelector('#orderModal');
   const deleteModal = document.querySelector('#deleteModal');
-  useEffect(() => {
-    getOrders();
-  }, [])
 
   const getOrders = async(page = 1) => {
     const orderRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/orders?page=${page}`);
@@ -49,7 +46,7 @@ function AdminOrders() {
   }
   const deleteOrder = async (id) => {
     try {
-      const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/product/${id}`);
+      const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/order/${id}`);
       console.log(res);
       if(res.data.success) {
         getOrders();
@@ -59,6 +56,10 @@ function AdminOrders() {
       console.error(error);
     }
   }
+
+  useEffect(() => {
+    getOrders();
+  }, [])
 
   return (
     <div className='p-3'>

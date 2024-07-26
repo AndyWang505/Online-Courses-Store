@@ -3,7 +3,7 @@ import { Link, useOutletContext } from "react-router-dom";
 
 function Cart() {
   const { cartData, getCart } = useOutletContext();
-  console.log(cartData.carts);
+  // console.log(cartData.carts);
   const removeCartItem = async(id) => {
     try {
       const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
