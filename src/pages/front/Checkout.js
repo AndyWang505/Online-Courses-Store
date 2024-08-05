@@ -41,27 +41,25 @@ function Checkout() {
         <>
           <h2 className="text-4xl font-bold mb-6">結帳</h2>
           <div className="md:flex md:flex-row-reverse">
-            <div className="md:w-1/3 h-2/4 p-6 rounded-md bg-neutral-50 mb-6 md:mb-0 md:ml-6 drop-shadow">
+            <div className="md:w-2/4 h-2/4 p-6 rounded-md bg-neutral-50 mb-6 md:mb-0 md:ml-6 drop-shadow">
               <h2 className="text-xl font-bold mb-4">訂單資訊</h2>
               <ul>
                   {cartData?.carts?.map((item) => {
                     return (
-                      <li className="md:flex w-full py-6 border-t" key={item.id}>
-                        <div className="md:flex md:w-2/3">
-                          <div className="md:mr-3">
-                            <img
-                              src={item.product.imageUrl}
-                              className="md:w-50 md:h-24 rounded-md border"
-                              alt={item.product.title}
-                            />
-                          </div>
-                          <h3 className="w-full mb-0 mt-3 text-md font-bold">
-                            <div className="inline-block p-1 text-sm border rounded-md bg-slate-300 text-rose-500 font-bold mr-3">{item.product.category}</div>
-                            <br />
-                            {item.product.title}
-                          </h3>
+                      <li className="md:flex md:grid md:grid-cols-3 w-full py-6 border-t" key={item.id}>
+                        <div className="md:mr-3">
+                          <img
+                            src={item.product.imageUrl}
+                            className="md:w-50 md:h-24 rounded-md border"
+                            alt={item.product.title}
+                          />
                         </div>
-                        <div className="flex w-1/3 justify-between items-center">
+                        <h3 className="w-full mb-0 mt-3 text-md font-bold">
+                          <div className="inline-block p-1 text-sm border rounded-md bg-slate-300 text-rose-500 font-bold mr-3">{item.product.category}</div>
+                          <br />
+                          {item.product.title}
+                        </h3>
+                        <div className="flex justify-between items-center md:text-center">
                           <div className="w-full">
                             <p>NT$ {item.final_total}</p>
                           </div>
@@ -72,7 +70,7 @@ function Checkout() {
                 </ul>
                 <div>總額 NT$ {cartData.final_total}</div>
             </div>
-            <form action="" className="md:w-2/3 p-6 rounded-md bg-neutral-50 drop-shadow" onSubmit={handleSubmit(onSubmit)}>
+            <form action="" className="md:w-2/4 p-6 rounded-md bg-neutral-50 drop-shadow" onSubmit={handleSubmit(onSubmit)}>
               <h2 className="text-xl font-bold mb-4">購買人資訊</h2>
               <Input
                 id="name"

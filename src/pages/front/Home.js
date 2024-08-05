@@ -205,7 +205,7 @@ function Home() {
           </ul>
         </div>
         <div>
-          <div className="mb-24 mt-12 bg-stone-100 py-12 px-6 leading-6">
+          <div className="mt-12 bg-stone-100 py-20 px-6 leading-6">
             <h3 className="text-4xl text-center font-bold mb-3 text-cyan-500 mb-6">
               聯絡我們
             </h3>
