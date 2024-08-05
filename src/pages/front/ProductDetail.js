@@ -4,10 +4,10 @@ import { Link, useOutletContext, useParams } from "react-router-dom";
 
 function ProductDetail() {
   const [product, setProduct] = useState([]);
-  // const [cartQuantity, setCartQuantity] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInCart, setIsInCart] = useState();
   const { id } = useParams();
-  const { getCart } = useOutletContext();
+  const { cartData, getCart } = useOutletContext();
 
   const addToCart = async() => {
     const data = {
@@ -17,13 +17,17 @@ function ProductDetail() {
       }
     };
     setIsLoading(true);
-    console.log(data);
     try {
-      // cart api issues: the backend quantity has already been added.
-      const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, data);
-      // console.log(res);
-      getCart();
-      setIsLoading(false);
+      const targetProduct = cartData.carts.find( cartItem => cartItem.product.id === product.id);
+      setIsInCart(targetProduct);
+      if(targetProduct !== undefined) {
+        return;
+      }else {
+        // cart api issues: the backend quantity has already been added.
+        await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, data);
+        getCart();
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -78,7 +82,7 @@ function ProductDetail() {
               }}
               disabled={isLoading}
             >
-              加入購物車
+              { isInCart !== undefined ? "已加入購物車" : "加入購物車" }
             </button>
           </div>
         </div>

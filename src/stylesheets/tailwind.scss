@@ -33,5 +33,21 @@
 }
 
 .main-bg {
-  background-image: url('https://images.unsplash.com/photo-1443188631128-a1b6b1c5c207?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-image: url('https://images.unsplash.com/photo-1619852182277-79aa23f82c8e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+}
+
+@keyframes typing {
+  from { width: 0 }
+}
+
+@keyframes caret {
+  50% { border-color: transparent; }
+}
+
+.typing {
+  width: 12em;
+  border-right: .05em solid;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 3s steps(12), caret 1s steps(1) infinite;
 }
