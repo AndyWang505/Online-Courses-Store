@@ -2,9 +2,17 @@ import { useForm } from "react-hook-form"
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { Input, Select, CheckboxRadio } from "../../components/FormElements";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 function Checkout() {
-  const { cartData } = useOutletContext();
+  const { cartData, getCart } = useOutletContext();
+  const [ finalTotal, setFinalTotal] = useState(cartData.final_total);
+
+  useEffect(() => {
+    getCart();
+    setFinalTotal(cartData.final_total)
+  }, [cartData.final_total, getCart]);
+
   const {
     register,
     handleSubmit,
@@ -14,7 +22,7 @@ function Checkout() {
   });
   const navigate = useNavigate();
 
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     const { name, email, tel, address } = data;
     console.log(name, email, tel, address);
     const form = {
@@ -44,31 +52,31 @@ function Checkout() {
             <div className="md:w-2/4 h-2/4 p-6 rounded-md bg-neutral-50 mb-6 md:mb-0 md:ml-6 drop-shadow">
               <h2 className="text-xl font-bold mb-4">訂單資訊</h2>
               <ul>
-                  {cartData?.carts?.map((item) => {
-                    return (
-                      <li className="md:flex md:grid md:grid-cols-3 w-full py-6 border-t" key={item.id}>
-                        <div className="md:mr-3">
-                          <img
-                            src={item.product.imageUrl}
-                            className="md:w-50 md:h-24 rounded-md border"
-                            alt={item.product.title}
-                          />
+                {cartData?.carts?.map((item) => {
+                  return (
+                    <li className="md:flex md:grid md:grid-cols-3 w-full py-6 border-t" key={item.id}>
+                      <div className="md:mr-3">
+                        <img
+                          src={item.product.imageUrl}
+                          className="md:w-50 md:h-24 rounded-md border"
+                          alt={item.product.title}
+                        />
+                      </div>
+                      <h3 className="w-full mb-0 mt-3 text-md font-bold">
+                        <div className="inline-block p-1 text-sm border rounded-md bg-slate-300 text-rose-500 font-bold mr-3">{item.product.category}</div>
+                        <br />
+                        {item.product.title}
+                      </h3>
+                      <div className="flex justify-between items-center md:text-center">
+                        <div className="w-full">
+                          <p>NT$ {item.product.price}</p>
                         </div>
-                        <h3 className="w-full mb-0 mt-3 text-md font-bold">
-                          <div className="inline-block p-1 text-sm border rounded-md bg-slate-300 text-rose-500 font-bold mr-3">{item.product.category}</div>
-                          <br />
-                          {item.product.title}
-                        </h3>
-                        <div className="flex justify-between items-center md:text-center">
-                          <div className="w-full">
-                            <p>NT$ {item.final_total}</p>
-                          </div>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
-                <div>總額 NT$ {cartData.final_total}</div>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+              <div>總額 NT$ {finalTotal}</div>
             </div>
             <form action="" className="md:w-2/4 p-6 rounded-md bg-neutral-50 drop-shadow" onSubmit={handleSubmit(onSubmit)}>
               <h2 className="text-xl font-bold mb-4">購買人資訊</h2>
@@ -86,7 +94,7 @@ function Checkout() {
                   },
                 }}
               />
-              
+
               <Input
                 id="address"
                 type="text"
@@ -95,7 +103,7 @@ function Checkout() {
                 register={register}
                 rules={{ required: '地址為必填項' }}
               />
-              
+
               <Input
                 id="tel"
                 type="tel"
@@ -114,7 +122,7 @@ function Checkout() {
                   },
                 }}
               />
-              
+
               <Input
                 id="email"
                 type="email"
@@ -131,7 +139,7 @@ function Checkout() {
               />
 
               <h2 className="text-xl font-bold py-6 border-t">付款方式</h2>
-              
+
               <Select
                 id="paymentMethod"
                 labelText="付款方式"

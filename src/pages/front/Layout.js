@@ -54,6 +54,7 @@ function Layout() {
           </ul>
         </div>
       </div>
+      <p className="pb-6 text-center text-white">© 2024 AndyWang. 本網站為技術練習用途，不具任何商業行為。</p>
     </footer>
     </>
   )

@@ -1,10 +1,15 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 
 function Cart() {
   const { cartData, getCart } = useOutletContext();
-  // console.log(cartData.carts);
-  const removeCartItem = async(id) => {
+  const [couponCode, setCouponCode] = useState('');
+  const [finalTotal, setFinalTotal] = useState(null);
+  const [message, setMessage] = useState('');
+  const [isCouponCleared, setIsCouponCleared] = useState(false);
+
+  const removeCartItem = async (id) => {
     try {
       const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
       getCart();
@@ -14,6 +19,48 @@ function Cart() {
     }
   }
 
+  const getCoupon = async () => {
+    try {
+      const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/coupon/`, { data: { code: couponCode } });
+      setFinalTotal(res.data.data.final_total);
+      setMessage("已套用優惠券");
+      getCart();
+      localStorage.setItem('coupon', JSON.stringify({
+        code: couponCode,
+        finalTotal: res.data.data.final_total,
+        isCouponCleared : false,
+      }));
+      setIsCouponCleared(false);
+    } catch (error) {
+      setMessage("優惠碼有誤");
+      console.log(error);
+    }
+  }
+
+  const clearCoupon = async () => {
+    localStorage.setItem('coupon', JSON.stringify({
+      code: "",
+      finalTotal: cartData.total,
+      isCouponCleared : true,
+    }));
+    setCouponCode('');
+    setFinalTotal(cartData.total);
+    setMessage("");
+    setIsCouponCleared(true);
+    getCart();
+  }
+
+  useEffect(() => {
+    const savedCoupon = localStorage.getItem('coupon');
+    if (savedCoupon) {
+      const { code, finalTotal, isCouponCleared } = JSON.parse(savedCoupon);
+      setCouponCode(code);
+      setFinalTotal(isCouponCleared ? cartData.total : finalTotal);
+      setIsCouponCleared(isCouponCleared);
+      setMessage(isCouponCleared ? '' : '優惠券已套用');
+    }
+  }, [cartData.total]);
+
   return (
     <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">
       <h2 className="text-4xl font-bold mb-6">購物車</h2>
@@ -22,10 +69,20 @@ function Cart() {
           <div className="md:w-1/3 h-2/4 p-6 rounded-md bg-neutral-50 mb-6 md:mb-0 md:ml-6 drop-shadow">
             <h2 className="text-xl font-bold pb-6 border-b">訂單明細</h2>
             <div className="p-3">
-              <p>優惠券</p>
-              <p>折扣</p>
-              <p>3 件商品</p>
-              <p className="text-lg font-bold">總計NT$ {cartData.final_total}</p>
+              <div className="mb-2">
+                <p>優惠券：</p>
+                <input type="text"
+                  className="p-1 rounded-md border"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  placeholder="輸入優惠券碼" />
+                <button type="button" className="p-1 ml-2 rounded-md bg-orange-300" onClick={getCoupon}>使用</button>
+                <button type="button" className="p-1 ml-2 rounded-md bg-red-300" onClick={clearCoupon}>清除</button>
+              </div>
+              <p>{message}</p>
+              <p>{cartData.carts.length} 件商品</p>
+              <p>{!isCouponCleared && `折扣 NT$ ${cartData.total} - ${cartData.total - Math.floor(finalTotal)}`}</p>
+              <p className="text-lg font-bold">總計NT$ {finalTotal}</p>
             </div>
             <div className="w-full bg-orange-300 text-center rounded-md">
               <Link className="block p-3" to={"/checkout"}>
@@ -57,7 +114,7 @@ function Cart() {
                       </Link>
                       <div className="flex md:w-1/3 justify-between items-center">
                         <div className="w-1/2">
-                          <p>NT$ {item.final_total}</p>
+                          <p>NT$ {item.product.price}</p>
                         </div>
                         <div className="w-1/2 flex flex-row-reverse md:block">
                           <button className="bg-red-500 text-white py-2 px-4 rounded"
