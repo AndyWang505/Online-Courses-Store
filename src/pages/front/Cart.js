@@ -14,9 +14,9 @@ function Cart() {
       const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
       getCart();
       localStorage.setItem('coupon', JSON.stringify({
-        code: couponCode,
-        finalTotal: res.data.data.final_total,
-        isCouponCleared : false,
+        code: "",
+        finalTotal: cartData.total,
+        isCouponCleared : true,
       }));
       console.log(res);
     } catch (error) {
@@ -37,6 +37,11 @@ function Cart() {
       }));
       setIsCouponCleared(false);
     } catch (error) {
+      localStorage.setItem('coupon', JSON.stringify({
+        code: "",
+        finalTotal: cartData.total,
+        isCouponCleared : true,
+      }));
       setMessage("優惠碼有誤");
       console.log(error);
     }

@@ -27,6 +27,11 @@ function ProductDetail() {
         await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, data);
         getCart();
         setIsLoading(false);
+        localStorage.setItem('coupon', JSON.stringify({
+          code: "",
+          finalTotal: cartData.total,
+          isCouponCleared : true,
+        }));
       }
     } catch (error) {
       console.error(error);
