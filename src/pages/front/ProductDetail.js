@@ -24,14 +24,16 @@ function ProductDetail() {
         return;
       }else {
         // cart api issues: the backend quantity has already been added.
-        await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, data);
-        getCart();
-        setIsLoading(false);
+        const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, data);
         localStorage.setItem('coupon', JSON.stringify({
           code: "",
-          finalTotal: cartData.total,
+          finalTotal: cartData.total + res.data.data.total,
           isCouponCleared : true,
         }));
+        console.log(res);
+        
+        getCart();
+        setIsLoading(false);
       }
     } catch (error) {
       console.error(error);

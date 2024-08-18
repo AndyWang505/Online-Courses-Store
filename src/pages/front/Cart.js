@@ -11,14 +11,13 @@ function Cart() {
 
   const removeCartItem = async (id) => {
     try {
-      const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
+      await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
       getCart();
       localStorage.setItem('coupon', JSON.stringify({
         code: "",
         finalTotal: cartData.total,
         isCouponCleared : true,
       }));
-      console.log(res);
     } catch (error) {
       console.log(error);
     }

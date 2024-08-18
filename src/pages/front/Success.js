@@ -18,20 +18,17 @@ function Success() {
       } else {
         setFinalTotal(orderData.total) 
       }
-      // console.log(res.data.order.products[orderId].total);
     } catch (error) {
       console.log(error);
     }
   }, [orderData.total]);
 
-  const paying = useCallback(async (orderId, finalTotal) => {
+  const paying = useCallback(async (orderId) => {
     try {
       await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/pay/${orderId}`);
-      localStorage.setItem('coupon', JSON.stringify({
-        code: null,
-        finalTotal: Math.floor(finalTotal),
-        isCouponCleared : true,
-      }));
+      let coupon = JSON.parse(localStorage.getItem('coupon'));
+      coupon.code = "";
+      coupon.isCouponCleared = true;
       getCart();
     } catch (error) {
       console.log(error);
@@ -43,7 +40,7 @@ function Success() {
       const { isCouponCleared, finalTotal } = JSON.parse(savedCoupon);
       getOrder(orderId, isCouponCleared, finalTotal);
     if(paying) {
-      paying(orderId, finalTotal);
+      paying(orderId);
     }
   }, [getOrder, orderId, paying, cartData.final_total, cartData.total]);
 
