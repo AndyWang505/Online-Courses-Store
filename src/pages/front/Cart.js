@@ -13,6 +13,11 @@ function Cart() {
     try {
       const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
       getCart();
+      localStorage.setItem('coupon', JSON.stringify({
+        code: couponCode,
+        finalTotal: res.data.data.final_total,
+        isCouponCleared : false,
+      }));
       console.log(res);
     } catch (error) {
       console.log(error);
@@ -27,7 +32,7 @@ function Cart() {
       getCart();
       localStorage.setItem('coupon', JSON.stringify({
         code: couponCode,
-        finalTotal: res.data.data.final_total,
+        finalTotal: Math.floor(res.data.data.final_total),
         isCouponCleared : false,
       }));
       setIsCouponCleared(false);
@@ -82,7 +87,7 @@ function Cart() {
               <p>{message}</p>
               <p>{cartData.carts.length} 件商品</p>
               <p>{!isCouponCleared && `折扣 NT$ ${cartData.total} - ${cartData.total - Math.floor(finalTotal)}`}</p>
-              <p className="text-lg font-bold">總計NT$ {finalTotal}</p>
+              <p className="text-lg font-bold">總計NT$ {Math.floor(finalTotal)}</p>
             </div>
             <div className="w-full bg-orange-300 text-center rounded-md">
               <Link className="block p-3" to={"/checkout"}>

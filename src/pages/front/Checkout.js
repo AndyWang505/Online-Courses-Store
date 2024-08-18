@@ -9,9 +9,13 @@ function Checkout() {
   const [ finalTotal, setFinalTotal] = useState(cartData.final_total);
 
   useEffect(() => {
+    const savedCoupon = localStorage.getItem('coupon');
+    if (savedCoupon) {
+      const { finalTotal, isCouponCleared } = JSON.parse(savedCoupon);
+      setFinalTotal(isCouponCleared ? cartData.total : finalTotal);
+    }
     getCart();
-    setFinalTotal(cartData.final_total)
-  }, [cartData.final_total, getCart]);
+  }, [getCart, cartData.final_total, cartData.total]);
 
   const {
     register,
@@ -76,7 +80,7 @@ function Checkout() {
                   );
                 })}
               </ul>
-              <div>總額 NT$ {finalTotal}</div>
+              <div>總額 NT$ {Math.floor(finalTotal)}</div>
             </div>
             <form action="" className="md:w-2/4 p-6 rounded-md bg-neutral-50 drop-shadow" onSubmit={handleSubmit(onSubmit)}>
               <h2 className="text-xl font-bold mb-4">購買人資訊</h2>

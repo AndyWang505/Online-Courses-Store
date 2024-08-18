@@ -5,21 +5,33 @@ import { Link, useOutletContext, useParams } from "react-router-dom";
 function Success() {
   const { orderId } = useParams();
   const [ orderData, setOrderData ] = useState({});
-  const { getCart } = useOutletContext();
+  const { cartData, getCart } = useOutletContext();
+  const [ finalTotal, setFinalTotal] = useState(cartData.final_total);
 
-  const getOrder = async(orderId) => {
+  const getOrder = useCallback(async(orderId, isCouponCleared, finalTotal) => {
     try {
       const res = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/order/${orderId}`);
-      console.log(res);
       setOrderData(res.data.order);
+      if (isCouponCleared) {
+        console.log(res);
+        setFinalTotal(finalTotal);
+      } else {
+        setFinalTotal(orderData.total) 
+      }
+      // console.log(res.data.order.products[orderId].total);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [orderData.total]);
 
-  const paying = useCallback(async (orderId) => {
+  const paying = useCallback(async (orderId, finalTotal) => {
     try {
       await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/pay/${orderId}`);
+      localStorage.setItem('coupon', JSON.stringify({
+        code: null,
+        finalTotal: Math.floor(finalTotal),
+        isCouponCleared : true,
+      }));
       getCart();
     } catch (error) {
       console.log(error);
@@ -27,11 +39,13 @@ function Success() {
   },[getCart]);
 
   useEffect(() => {
-    getOrder(orderId);
+    const savedCoupon = localStorage.getItem('coupon');
+      const { isCouponCleared, finalTotal } = JSON.parse(savedCoupon);
+      getOrder(orderId, isCouponCleared, finalTotal);
     if(paying) {
-      paying(orderId);
+      paying(orderId, finalTotal);
     }
-  }, [orderId, paying]);
+  }, [getOrder, orderId, paying, cartData.final_total, cartData.total]);
 
   return (
     <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">
@@ -65,7 +79,7 @@ function Success() {
             })}
             <li className="w-full py-6 border-t">
               <p>已付款</p>
-              <p>總計 NT$ {orderData.total}</p>
+              <p>總計 NT$ {Math.floor(finalTotal)}</p>
             </li>
           </ul>
         </div>
