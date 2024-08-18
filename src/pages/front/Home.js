@@ -9,6 +9,7 @@ import 'swiper/css/pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { Pagination } from 'swiper/modules';
 
 function Home() {
   const [newProducts, setNewProducts] = useState([]);
@@ -58,8 +59,10 @@ function Home() {
             <p className="mt-4 text-lg">在 LearnSphere，我們為您提供多元化的學習資源，讓學習變得簡單而有趣。</p>
           </div>
         </div>
-        <div className="flex justify-center items-center p-6 text-center bg-rose-50">
-          <p>現在輸入優惠碼<span className="p-1 mx-1 rounded bg-gray-400 text-white">{couponCode}</span>即可享有 9 折課程優惠</p>
+        <div className="sm:flex justify-center items-center text-sm md:text-base p-6 text-center bg-rose-50">
+          <p className="p-1">現在輸入優惠碼</p>
+          <span className="p-1 mx-1 rounded border bg-gray-400 text-white">{couponCode}</span>
+          <p className="p-1">即可享有 9 折課程優惠</p>
           <button type="button" className="p-1 ml-2 rounded-md border bg-slate-300" onClick={handleCopy}>
             {copied ? '已複製' : '複製'}
           </button>
@@ -69,6 +72,8 @@ function Home() {
           <Swiper
             slidesPerView={3}
             spaceBetween={5}
+            pagination={{ clickable: true }}
+            modules={[Pagination]}
             className="mySwiper"
             breakpoints={{
               768: {
@@ -117,6 +122,8 @@ function Home() {
           <Swiper
             slidesPerView={4}
             spaceBetween={3}
+            pagination={{ clickable: true }}
+            modules={[Pagination]}
             className="mySwiper"
             autoplay={{
               delay: 500,
@@ -169,7 +176,7 @@ function Home() {
           </Swiper>
           
         </div>
-        <div className="container max-w-7xl mx-auto mb-24">
+        <div className="container max-w-7xl mx-auto mb-24 mt-6">
           <h3 className="text-2xl md:text-4xl font-bold text-center text-rose-300 mb-6">
             授課講師
           </h3>
