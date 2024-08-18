@@ -12,6 +12,19 @@ import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 
 function Home() {
   const [newProducts, setNewProducts] = useState([]);
+  const [copied, setCopied] = useState(false);
+  const couponCode = "DA2ASD28NF19NF";
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(couponCode)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      })
+      .catch(err => {
+        console.error('複製失敗:', err);
+      });
+  }
 
   const getProducts = async() => {
     const productAllRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`);
@@ -44,6 +57,12 @@ function Home() {
             </div>
             <p className="mt-4 text-lg">在 LearnSphere，我們為您提供多元化的學習資源，讓學習變得簡單而有趣。</p>
           </div>
+        </div>
+        <div className="flex justify-center items-center p-6 text-center bg-rose-50">
+          <p>現在輸入優惠碼<span className="p-1 mx-1 rounded bg-gray-400 text-white">{couponCode}</span>即可享有 9 折課程優惠</p>
+          <button type="button" className="p-1 ml-2 rounded-md border bg-slate-300" onClick={handleCopy}>
+            {copied ? '已複製' : '複製'}
+          </button>
         </div>
         <div className="container max-w-7xl mx-auto p-6">
           <h2 className="text-2xl md:text-4xl font-bold text-center my-6">精選課程</h2>
