@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getAllProducts } from "../../api/front";
 // Swiper Module
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -28,8 +28,7 @@ function Home() {
   }
 
   const getProducts = async() => {
-    const productAllRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`);
-    // console.log(productAllRes.data.products);
+    const productAllRes = await getAllProducts();
     setNewProducts(productAllRes.data.products.slice(0, 10));
   }
 

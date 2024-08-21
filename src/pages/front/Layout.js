@@ -1,14 +1,14 @@
 import { Link, Outlet } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { getCartData } from "../../api/front"
 
 function Layout() {
   const [cartData, setCartData] = useState({});
   
   const getCart = async() => {
     try {
-      const res = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`);
+      const res = await getCartData();
       setCartData(res.data.data);
     } catch (error) {
       console.log(error);

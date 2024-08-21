@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+import { deleteCartItem, postCoupon } from "../../api/front"
 
 function Cart() {
   const { cartData, getCart } = useOutletContext();
@@ -11,7 +11,7 @@ function Cart() {
 
   const removeCartItem = async (id) => {
     try {
-      await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`);
+      await deleteCartItem(id);
       getCart();
       localStorage.setItem('coupon', JSON.stringify({
         code: "",
@@ -25,7 +25,7 @@ function Cart() {
 
   const getCoupon = async () => {
     try {
-      const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/coupon/`, { data: { code: couponCode } });
+      const res = await postCoupon(couponCode);
       setFinalTotal(res.data.data.final_total);
       setMessage("已套用優惠券");
       getCart();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useOutletContext, useParams } from "react-router-dom";
+import { getProduct, postCart } from "../../api/front";
 
 function ProductDetail() {
   const [product, setProduct] = useState([]);
@@ -24,14 +24,12 @@ function ProductDetail() {
         return;
       }else {
         // cart api issues: the backend quantity has already been added.
-        const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/cart`, data);
+        const res = await postCart(data);
         localStorage.setItem('coupon', JSON.stringify({
           code: "",
           finalTotal: cartData.total + res.data.data.total,
           isCouponCleared : true,
         }));
-        console.log(res);
-        
         getCart();
         setIsLoading(false);
       }
@@ -40,14 +38,13 @@ function ProductDetail() {
     }
   }
 
-  const getProduct = async(id) => {
-    const productRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`);
-    // console.log(productRes);
+  const getProductDetail = async(id) => {
+    const productRes = await getProduct(id);
     setProduct(productRes.data.product);
   }
 
   useEffect(() => {
-    getProduct(id);
+    getProductDetail(id);
   }, [id])
 
   return (

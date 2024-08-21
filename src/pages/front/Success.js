@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
+import { getOrderData, postPay } from "../../api/front";
 
 function Success() {
   const { orderId } = useParams();
@@ -10,7 +10,7 @@ function Success() {
 
   const getOrder = useCallback(async(orderId, isCouponCleared, finalTotal) => {
     try {
-      const res = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/order/${orderId}`);
+      const res = await getOrderData(orderId);
       setOrderData(res.data.order);
       if (isCouponCleared) {
         console.log(res);
@@ -25,7 +25,7 @@ function Success() {
 
   const paying = useCallback(async (orderId) => {
     try {
-      await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/pay/${orderId}`);
+      await postPay(orderId);
       let coupon = JSON.parse(localStorage.getItem('coupon'));
       coupon.code = "";
       coupon.isCouponCleared = true;

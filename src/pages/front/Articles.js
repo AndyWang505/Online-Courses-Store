@@ -1,9 +1,9 @@
-import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import Pagination from "../../components/Pagination";
+import { getAllArticles, getArticlePage } from "../../api/front"
 // React Loading Skeleton
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -18,7 +18,7 @@ function Articles() {
 
   const getTagsArr = async() => {
     try {
-      const tagsAllRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/articles`);
+      const tagsAllRes = await getAllArticles();
       const tagsArr = ["全部", ...new Set(tagsAllRes.data.articles.map(article => article.tag))];
       setTags(tagsArr);
     } catch (error) {
@@ -29,7 +29,7 @@ function Articles() {
   const getArticles = async(page = 1) => {
     try {
       if(tag !== "全部") {
-        const articleAllRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/articles`);
+        const articleAllRes = await getAllArticles();
         const filterArticles = articleAllRes.data.articles.filter(article => article.tag === tag);
         const totalPage = Math.ceil(filterArticles.length / 10);
         const start = (page - 1) * 10;
@@ -44,7 +44,7 @@ function Articles() {
           total_pages: totalPage
         });
       }else {
-        const articlePageRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/articles?page=${page}`);
+        const articlePageRes = await getArticlePage(page);
         setArticles(articlePageRes.data.articles);
         setPagination(articlePageRes.data.pagination);
       }

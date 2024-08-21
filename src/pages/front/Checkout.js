@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form"
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { Input, Select, CheckboxRadio } from "../../components/FormElements";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { postOrder } from "../../api/front";
 
 function Checkout() {
   const { cartData, getCart } = useOutletContext();
@@ -28,7 +28,6 @@ function Checkout() {
 
   const onSubmit = async (data) => {
     const { name, email, tel, address } = data;
-    console.log(name, email, tel, address);
     const form = {
       data: {
         user: {
@@ -39,11 +38,7 @@ function Checkout() {
         },
       },
     };
-    const res = await axios.post(
-      `/v2/api/${process.env.REACT_APP_API_PATH}/order`,
-      form,
-    );
-    console.log(res);
+    const res = await postOrder(form)
     navigate(`/success/${res.data.orderId}`);
   };
 

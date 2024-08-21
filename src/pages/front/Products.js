@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 // React Loading Skeleton
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+
+import { getAllProducts, getProductsPage } from '../../api/front';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -16,7 +17,7 @@ function Products() {
 
   const getCategoryArr = async() => {
     try {
-      const productAllRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`);
+      const productAllRes = await getAllProducts();
       const categoriesArr = ["全部", ...new Set(productAllRes.data.products.map(product => product.category))];
       setCategories(categoriesArr);
     } catch (error) {
@@ -27,7 +28,7 @@ function Products() {
   const getProducts = async(page = 1) => {
     try {
       if(category !== "全部") {
-        const productAllRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`);
+        const productAllRes = await getAllProducts();
         const filterProducts = productAllRes.data.products.filter(product => product.category === category);
         const totalPage = Math.ceil(filterProducts.length / 10);
         const start = (page - 1) * 10;
@@ -41,7 +42,7 @@ function Products() {
           total_pages: totalPage
         });
       }else {
-        const productPageRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`);
+        const productPageRes = await getProductsPage(page);
         setProducts(productPageRes.data.products);
         setPagination(productPageRes.data.pagination);
       }

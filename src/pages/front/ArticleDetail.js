@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-
+import { getArticleItem } from "../../api/front";
 function ArticleDetail() {
   const [article , setArticle] = useState([]);
   const { id } = useParams();
 
   const getArticle = async (id) => {
     try {
-      const articleRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/article/${id}`);
+      const articleRes = await getArticleItem(id);
       setArticle(articleRes.data.article);
-      console.log(articleRes.data.article);
     } catch (error) {
       console.log(error);
     }
