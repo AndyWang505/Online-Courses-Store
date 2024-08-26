@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import { editOrderItem } from "../api/admin";
 
 function OrderModal({ closeProductModal, getOrders, tempOrder }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,12 +32,7 @@ function OrderModal({ closeProductModal, getOrders, tempOrder }) {
   const submit = async() => {
     setIsLoading(true);
     try {
-      let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/order/${tempOrder.id}`;
-      const res = await axios.put(api, {
-        data: {
-          ...tempData,
-        },
-      });
+      const res = await editOrderItem(tempOrder.id, { ...tempData });
       // console.log(tempData);
       handleSuccessMessage(dispatch, res);
       setIsLoading(false);

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import OrderModal from "../../components/OrderModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
+import { getAllOrders, deleteOrderItem } from "../../api/admin";
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -13,7 +13,7 @@ function AdminOrders() {
   const deleteModal = document.querySelector('#deleteModal');
 
   const getOrders = async(page = 1) => {
-    const orderRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/orders?page=${page}`);
+    const orderRes = await getAllOrders(page);
     console.log(orderRes);
     setOrders(orderRes.data.orders);
     setPagination(orderRes.data.pagination);
@@ -46,7 +46,7 @@ function AdminOrders() {
   }
   const deleteOrder = async (id) => {
     try {
-      const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/order/${id}`);
+      const res = await deleteOrderItem(id);
       console.log(res);
       if(res.data.success) {
         getOrders();

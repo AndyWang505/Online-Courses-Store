@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import { editArticleItem, postArticle, updateArticle } from "../api/admin"
 
 function ArticleModal({ closeProductModal, getProducts, type, tempProduct }) {
   const [tempData, setTempData] = useState({
@@ -50,18 +50,12 @@ function ArticleModal({ closeProductModal, getProducts, type, tempProduct }) {
 
   const submit = async() => {
     try {
-      let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/article`;
-      let method = 'post';
-      if(type === 'edit'){
-        api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/article/${tempProduct.id}`;
-        method = 'put';
+      let res;
+      if (type === 'post') {
+        res = await postArticle({ data: tempData });
+      } else if (type === 'edit') {
+        res = await editArticleItem(tempProduct.id, { data: tempData });
       }
-      const res = await axios[method](
-        api,
-        {
-          data: tempData
-        }
-      );
       console.log(res);
       handleSuccessMessage(dispatch, res);
       closeProductModal();
@@ -79,7 +73,7 @@ function ArticleModal({ closeProductModal, getProducts, type, tempProduct }) {
     const formData = new FormData()
     formData.append('file-to-upload', file)
     try {
-      const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/upload`, formData);
+      const res = await updateArticle(formData);
       setTempData({ ...tempData, imageUrl: res.data.imageUrl });
     } catch(error){
       console.error(error);

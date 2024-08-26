@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import ArticleModal from "../../components/ArticleModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
+import { getAllArticle, getAllArticleItem, deleteArticleItem } from "../../api/admin";
 
 function AdminArticles() {
   const [articles, setArticles] = useState([]);
@@ -18,7 +18,7 @@ function AdminArticles() {
   }, [])
 
   const getProducts = async(page = 1) => {
-    const articleRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/articles?page=${page}`);
+    const articleRes = await getAllArticle(page);
     setArticles(articleRes.data.articles);
     setPagination(articleRes.data.pagination);
   }
@@ -39,7 +39,7 @@ function AdminArticles() {
   }
   
   const openProductModal = async(type, product) => {
-    const articleRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/article/${product.id}`);
+    const articleRes = await getAllArticleItem(product.id);
     setType(type);
     if(type === "create"){
       setTempProduct(product);
@@ -60,7 +60,7 @@ function AdminArticles() {
   }
   const deleteProduct = async (id) => {
     try {
-      const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/article/${id}`);
+      const res = await deleteArticleItem(id);
       console.log(res);
       if(res.data.success) {
         getProducts();

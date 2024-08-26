@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import { editCouponItem, postCoupon } from "../api/admin";
 
 function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
   const [tempData, setTempData] = useState({
@@ -52,21 +52,12 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
 
   const submit = async () => {
     try {
-      let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon`;
-      let method = 'post';
-      if (type === 'edit') {
-        api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon/${tempCoupon.id}`;
-        method = 'put';
+      let res;
+      if (type === 'post') {
+        res = await postCoupon({ data: {...tempData, due_date: date.getTime()} });
+      } else if (type === 'edit') {
+        res = await editCouponItem(tempCoupon.id, { data: {...tempData, due_date: date.getTime()} });
       }
-      const res = await axios[method](
-        api,
-        {
-          data: {
-            ...tempData,
-            due_date: date.getTime()
-          },
-        },
-      );
       console.log(res);
       handleSuccessMessage(dispatch, res);
       closeModal();

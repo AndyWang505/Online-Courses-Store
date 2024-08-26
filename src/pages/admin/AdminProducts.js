@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import ProductModal from "../../components/ProductModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
+import { getAllProducts, deleteProductItem } from "../../api/admin";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -18,7 +18,7 @@ function AdminProducts() {
   }, [])
 
   const getProducts = async(page = 1) => {
-    const productRes = await axios.get(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/products?page=${page}`);
+    const productRes = await getAllProducts(page);
     setProducts(productRes.data.products);
     setPagination(productRes.data.pagination);
   }
@@ -55,7 +55,7 @@ function AdminProducts() {
   }
   const deleteProduct = async (id) => {
     try {
-      const res = await axios.delete(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/product/${id}`);
+      const res = await deleteProductItem(id);
       console.log(res);
       if(res.data.success) {
         getProducts();

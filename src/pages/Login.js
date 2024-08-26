@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { postSignin } from "../api/auth";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function Login() {
 
   const submit = async (e) => {
     try {
-      const res = await axios.post('/v2/admin/signin', data);
+      const res = await postSignin(data);
       const { token, expired } = res.data;
       console.log(res.data);
       document.cookie = `hexToken=${token}; expires=${new Date(expired)};`;

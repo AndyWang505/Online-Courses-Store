@@ -1,8 +1,8 @@
 import { Outlet, useNavigate, NavLink } from 'react-router-dom';
-import axios from 'axios';
 import { useEffect, useReducer } from 'react';
 import Message from '../../components/Message';
 import { MessageContext, messageReducer, initState } from '../../store/messageStore';
+import { postCheck } from '../../api/auth';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -17,14 +17,14 @@ function Dashboard() {
     .split("; ")
     .find((row) => row.startsWith("hexToken="))
     ?.split("=")[1];
-  axios.defaults.headers.common['Authorization'] = token;
+  // axios.defaults.headers.common['Authorization'] = token;
   useEffect(() => {  
     if(!token) {
       return navigate('/login');
     }
     (async() => {
       try {
-        await axios.post('/v2/api/user/check');
+        await postCheck(token);
       } catch (error) {
         if(error.response.data.success){
           navigate('/');
