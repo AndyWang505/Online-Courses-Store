@@ -7,6 +7,24 @@ const axiosInstance = axios.create({
 	baseURL: `${baseURL}/v2/api/${apiPath}/admin/`,
 })
 
+axiosInstance.interceptors.request.use(
+	(config) => {
+		const token = document.cookie
+			?.split('; ')
+			?.find((row) => row.startsWith('hexToken='))
+			?.split('=')[1]
+		if (token) {
+			config.headers.Authorization = token
+		}
+		return config
+	},
+	(error) => {
+		// do something to record the error
+		return Promise.reject(error)
+	}
+)
+
+
 //  Handle the axios response
 axiosInstance.interceptors.response.use(
 	(res) => {
