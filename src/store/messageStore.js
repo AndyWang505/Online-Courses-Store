@@ -24,13 +24,13 @@ export const messageReducer = (state, action) => {
   }
 };
 
-export function handleSuccessMessage(dispatch, res) {
+export function handleSuccessMessage(dispatch, message) {
   dispatch({
     type: "POST_MESSAGE",
     payload: {
       type: 'success',
       title: '更新成功',
-      text: res.data.message,
+      text: message,
     }
   });
   setTimeout(() => {

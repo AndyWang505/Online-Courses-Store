@@ -35,7 +35,6 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   }, [type, tempProduct]);
 
   const handleChange = (e) => {
-    console.log(e);
     const { value, name } = e.target;
     if(['price', 'origin_price'].includes(name)) {
       setTempData({
@@ -54,17 +53,15 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
       })
     }
   };
-
+  console.log(type);
   const submit = async() => {
-    try {
-      let res;
-      if (type === 'post') {
-        res = await postProduct({ data: tempData });
+    try {    
+      if (type === 'create') {    
+        await postProduct(tempData);
       } else if (type === 'edit') {
-        res = await editProductItem(tempProduct.id, { data: tempData });
+        await editProductItem(tempProduct.id, tempData);
       }
-      console.log(res);
-      handleSuccessMessage(dispatch, res);
+      handleSuccessMessage(dispatch, '已更新資料');
       closeProductModal();
       getProducts();
     } catch (error) {
@@ -81,6 +78,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     formData.append('file-to-upload', file)
     try {
       const res = await updateProduct(formData);
+      // const res = await axios.post(`/v2/api/${process.env.REACT_APP_API_PATH}/admin/upload`, formData);
       setTempData({ ...tempData, imageUrl: res.data.imageUrl });
     } catch(error){
       console.error(error);

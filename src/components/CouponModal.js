@@ -52,14 +52,12 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
 
   const submit = async () => {
     try {
-      let res;
-      if (type === 'post') {
-        res = await postCoupon({ data: {...tempData, due_date: date.getTime()} });
+      if (type === 'create') {
+        await postCoupon({...tempData, due_date: date.getTime()});
       } else if (type === 'edit') {
-        res = await editCouponItem(tempCoupon.id, { data: {...tempData, due_date: date.getTime()} });
+        await editCouponItem(tempCoupon.id, {...tempData, due_date: date.getTime()});
       }
-      console.log(res);
-      handleSuccessMessage(dispatch, res);
+      handleSuccessMessage(dispatch, '已更新資料');
       closeModal();
       getCoupons();
     } catch (error) {

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CouponModal from "../../components/CouponModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
 import { getAllCoupons, deleteCouponItem } from "../../api/admin";
+import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../../store/messageStore";
 
 function AdminCoupons() {
   const [coupons, setCoupons] = useState([]);
@@ -10,6 +11,8 @@ function AdminCoupons() {
 
   const [type, setType] = useState('create');
   const [tempCoupon, setTempCoupon] = useState({});
+
+  const [, dispatch] = useContext(MessageContext);
 
   const couponModal = document.querySelector('#couponModal');
   const deleteModal = document.querySelector('#deleteModal');
@@ -61,9 +64,11 @@ function AdminCoupons() {
       if(res.data.success) {
         getCoupons();
         modalHide(deleteModal);
+        handleSuccessMessage(dispatch, '已刪除資料');
       }
     }catch(error) {
       console.error(error);
+      handleErrorMessage(dispatch, error);
     }
   }
 

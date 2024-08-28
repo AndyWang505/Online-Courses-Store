@@ -24,7 +24,6 @@ axiosInstance.interceptors.request.use(
 	}
 )
 
-
 //  Handle the axios response
 axiosInstance.interceptors.response.use(
 	(res) => {
@@ -45,11 +44,11 @@ export const deleteProductItem = async (id) => {
 }
 
 export const editProductItem = async (id, data) => {
-  return await axiosInstance.put(`product/${id}`, data)
+  return await axiosInstance.put(`product/${id}`, { data })
 }
 
 export const postProduct = async (data) => {
-  return await axiosInstance.post(`product`, data)
+  return await axiosInstance.post(`product`, { data })
 }
 
 export const updateProduct = async (formData) => {
@@ -66,7 +65,7 @@ export const deleteOrderItem = async (id) => {
 }
 
 export const editOrderItem = async (id, data) => {
-  return await axiosInstance.put(`order/${id}`, data)
+  return await axiosInstance.put(`order/${id}`, { data })
 }
 
 // coupon
@@ -79,11 +78,11 @@ export const deleteCouponItem = async (id) => {
 }
 
 export const editCouponItem = async (id, data) => {
-  return await axiosInstance.put(`coupon/${id}`, data)
+  return await axiosInstance.put(`coupon/${id}`, { data })
 }
 
-export const postCoupon = async () => {
-  return await axiosInstance.post(`coupon`)
+export const postCoupon = async (data) => {
+  return await axiosInstance.post(`coupon`, { data })
 }
 
 // article
@@ -100,11 +99,11 @@ export const deleteArticleItem = async (id) => {
 }
 
 export const editArticleItem = async (id, data) => {
-  return await axiosInstance.put(`coupon/${id}`, data)
+  return await axiosInstance.put(`article/${id}`, { data })
 }
 
-export const postArticle = async () => {
-  return await axiosInstance.post(`articles`)
+export const postArticle = async (data) => {
+  return await axiosInstance.post(`article`, { data })
 }
 
 export const updateArticle = async (formData) => {

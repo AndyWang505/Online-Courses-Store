@@ -50,14 +50,12 @@ function ArticleModal({ closeProductModal, getProducts, type, tempProduct }) {
 
   const submit = async() => {
     try {
-      let res;
-      if (type === 'post') {
-        res = await postArticle({ data: tempData });
+      if (type === 'create') {
+        await postArticle(tempData);
       } else if (type === 'edit') {
-        res = await editArticleItem(tempProduct.id, { data: tempData });
+        await editArticleItem(tempProduct.id, tempData);
       }
-      console.log(res);
-      handleSuccessMessage(dispatch, res);
+      handleSuccessMessage(dispatch, '已更新資料');
       closeProductModal();
       getProducts();
     } catch (error) {

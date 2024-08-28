@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProductModal from "../../components/ProductModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
 import { getAllProducts, deleteProductItem } from "../../api/admin";
+import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../../store/messageStore";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -10,6 +11,8 @@ function AdminProducts() {
 
   const [type, setType] = useState('create');
   const [tempProduct, setTempProduct] = useState({});
+
+  const [, dispatch] = useContext(MessageContext);
 
   const productModal = document.querySelector('#productModal');
   const deleteModal = document.querySelector('#deleteModal');
@@ -20,7 +23,7 @@ function AdminProducts() {
   const getProducts = async(page = 1) => {
     const productRes = await getAllProducts(page);
     setProducts(productRes.data.products);
-    setPagination(productRes.data.pagination);
+    setPagination(productRes.data.pagination); 
   }
   // Modal Controller
   function modalShow(modalTarget) {
@@ -60,9 +63,11 @@ function AdminProducts() {
       if(res.data.success) {
         getProducts();
         modalHide(deleteModal);
+        handleSuccessMessage(dispatch, '已刪除資料');
       }
     }catch(error) {
       console.error(error);
+      handleErrorMessage(dispatch, error);
     }
   }
 
