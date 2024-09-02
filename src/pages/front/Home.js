@@ -5,16 +5,43 @@ import { getAllProducts } from "../../api/front";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
 // FontAwesome Icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { Pagination } from 'swiper/modules';
 
 function Home() {
   const [newProducts, setNewProducts] = useState([]);
   const [copied, setCopied] = useState(false);
   const couponCode = "DA2ASD28NF19NF";
+
+  const teachers = [
+    {
+      id: new Date(),
+      name: "王美玲 (Meiling Wang)",
+      imageURL: "https://plus.unsplash.com/premium_photo-1661505218403-c684557a824d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description: "畢業於劍橋大學，擁有15年以上教學經驗，同時也是跨文化專家，擅長商務英語、語音學、跨文化溝通。"
+    },
+    {
+      id: new Date(),
+      name: "Alex Johnson",
+      imageURL: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description: "畢業於史丹佛大學，曾任職於Google和Microsoft的資深軟體工程師，擅長AI、大數據分析，以及資料安全。"
+    },
+    {
+      id: new Date(),
+      name: "Lucas Mitchell",
+      imageURL: "https://images.unsplash.com/photo-1590086782957-93c06ef21604?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description: "畢業於牛津大學，曾任職於facebook，目前於InnovaCore公司擔任CTO，擅長軟體工程與底層系統架構設計。"
+    },
+    {
+      id: new Date(),
+      name: "張偉明 (Wei-Ming Chang)",
+      imageURL: "https://images.unsplash.com/photo-1544168190-79c17527004f?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description: "畢業於台灣大學，曾任職於Amazon的資深軟體工程師及團隊領導，並擁有超過5年的教育經驗，擅長前後端開發及系統設計。"
+    }
+  ]
 
   const handleCopy = () => {
     navigator.clipboard.writeText(couponCode)
@@ -173,7 +200,26 @@ function Home() {
               )
             })}
           </Swiper>
-          
+        </div>
+        <div className="bg-zinc-100">
+          <div className="container max-w-7xl mx-auto mb-24 mt-6 py-12 px-6 md:flex md:grid md:grid-cols-2">
+            <div className="px-4">
+              <h2 className="text-4xl font-bold mb-12">盡情探索你的個人興趣</h2>
+              <p className="text-lg">不論是學習新技能、深入了解特定主題，還是尋找靈感來豐富生活，這個區塊將成為你展開探索之旅的起點。</p>
+            </div>
+            <ul className="p-6 flex flex-wrap">
+              <li className="p-4 m-2 bg-white rounded-md shadow-md">平面設計</li>
+              <li className="p-4 m-2 bg-white rounded-md shadow-md">電腦繪圖</li>
+              <li className="p-4 m-2 bg-white rounded-md shadow-md">語言</li>
+              <li className="p-4 m-2 bg-white rounded-md shadow-md">程式設計</li>
+              <li className="p-4 m-2 bg-white rounded-md shadow-md">攝影</li>
+              <li className="p-4 m-2 bg-white rounded-md shadow-md">心理學</li>
+              <li className="p-4 m-2 bg-white rounded-md shadow-md">數據分析</li>
+              <li className="p-4 m-2 bg-white rounded-md shadow-md">投資理財</li>
+              <li className="p-4 m-2 bg-white rounded-md shadow-md">行銷策略</li>
+              <li className="p-4 m-2 bg-white rounded-md shadow-md">人文</li>
+            </ul>
+          </div>
         </div>
         <div className="container max-w-7xl mx-auto mb-24 mt-6">
           <h3 className="text-2xl md:text-4xl font-bold text-center text-rose-300 mb-6">
@@ -182,61 +228,63 @@ function Home() {
           <p className="text-md md:text-xl text-center text-neutral-700 mb-12">
             我們邀請各行各業的專家及世界一流學校的畢業生擔任講者，提供前沿知識和實用技能。
           </p>
-          <ul className="md:flex justify-between md:space-x-4">
-            <li>
-              <div className="w-full px-3 mb-4">
-                <div className="card border-0 relative mb-4">
-                  <img src="https://plus.unsplash.com/premium_photo-1661505218403-c684557a824d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="h-96 object-cover sm:h-auto w-full rounded-md" alt="..." />
-                  <div className="card-body p-0">
-                    <h4 className="mb-0 mt-3">王美玲 (Meiling Wang)</h4>
-                    <p className="card-text text-gray-500 mb-0">畢業於劍橋大學，擁有15年以上教學經驗，同時也是跨文化專家，擅長商務英語、語音學、跨文化溝通。</p>
+          <div className="md:flex justify-between md:space-x-4">
+            <Swiper
+              slidesPerView={4}
+              spaceBetween={3}
+              pagination={{ clickable: true }}
+              modules={[Pagination]}
+              className="mySwiper"
+              autoplay={{
+                delay: 500,
+                disableOnInteraction: false
+              }}
+              breakpoints={{
+                1024: {
+                  slidesPerView: 4,
+                  spaceBetween: 3,
+                },
+                768: {
+                  slidesPerView: 3,
+                  spaceBetween: 5,
+                },
+                640: {
+                  slidesPerView: 2,
+                  spaceBetween: 5,
+                },
+                320: {
+                  slidesPerView: 1,
+                  spaceBetween: 5,
+                },
+              }}
+            >
+            {teachers.map((item) => {
+              return (
+                <SwiperSlide className="pb-16" key={item.name}>
+                  <div className="w-full px-3 mb-4">
+                    <div className="border-0 relative">
+                      <img src={item.imageURL} className="h-96 object-cover sm:h-auto w-full rounded-xl relative" alt="..." />
+                      <div className="p-4 mr-4 bg-white border rounded-xl shadow-md absolute -bottom-16 -left-4 z-100">
+                        <h4 className="mb-2">{item.name}</h4>
+                        <hr />
+                        <p className="card-text text-gray-500 pt-2 mb-0">{item.description}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="w-full px-3 mb-4">
-                <div className="card border-0 relative mb-4">
-                  <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="h-96 object-cover sm:h-auto w-full rounded-md" alt="..." />
-                  <div className="card-body p-0">
-                    <h4 className="mb-0 mt-3">Alex Johnson</h4>
-                    <p className="card-text text-gray-500 mb-0">畢業於史丹佛大學，曾任職於Google和Microsoft的資深軟體工程師，擅長AI、大數據分析，以及資料安全。</p>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="w-full px-3 mb-4">
-                <div className="card border-0 relative mb-4">
-                  <img src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="h-96 object-cover sm:h-auto w-full rounded-md" alt="..." />
-                  <div className="card-body p-0">
-                    <h4 className="mb-0 mt-3">Lucas Mitchell</h4> 
-                    <p className="card-text text-gray-500 mb-0">畢業於牛津大學，曾任職於facebook，目前於InnovaCore公司擔任CTO，擅長軟體工程與底層系統架構設計。</p>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="w-full px-3 mb-4">
-                <div className="card border-0 relative mb-4">
-                  <img src="https://images.unsplash.com/photo-1544168190-79c17527004f?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="h-96 object-cover sm:h-auto w-full rounded-md" alt="..." />
-                  <div className="card-body p-0">
-                    <h4 className="mb-0 mt-3">張偉明 (Wei-Ming Chang)</h4> 
-                    <p className="card-text text-gray-500 mb-0">畢業於台灣大學，曾任職於Amazon的資深軟體工程師及團隊領導，並擁有超過5年的教育經驗，擅長前後端開發及系統設計。</p>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
+                </SwiperSlide>
+              )
+            })}
+            </Swiper>
+          </div>
         </div>
         <div>
           <div className="mt-12 bg-stone-100 py-20 px-6 leading-6">
-            <h3 className="text-4xl text-center font-bold mb-3 text-cyan-500 mb-6">
+            <h3 className="text-4xl text-center font-bold text-cyan-500 mb-6">
               聯絡我們
             </h3>
             <div className="text-xl text-center">
               <p className="mb-3">
-                我們很高興您對LearnSphere (學習天地) 感興趣！<br />如果您有任何疑問、建議或需要進一步的幫助，請隨時與我們聯繫。<br />我們的團隊隨時準備好為您提供協助。
+                我們很高興您對 LearnSphere (學習天地) 感興趣！<br />如果您有任何疑問、建議或需要進一步的幫助，請隨時與我們聯繫。<br />我們的團隊隨時準備好為您提供協助。
               </p>
               <p><FontAwesomeIcon icon={faEnvelope} /> learn505@learnsphere.com</p>
               <p className='mb-2'><FontAwesomeIcon icon={faPhone} /> +123-456-7890</p>

@@ -23,7 +23,7 @@ function Layout() {
     <>
     <Navbar cartData={cartData} />
     <Outlet context={{ getCart, cartData }}></Outlet>
-    <footer className="bg-[#4b3537]">
+    <footer className="bg-slate-800">
       <div className="container mx-auto flex justify-around text-white text-center p-6">
         <div>
           <h3>關於</h3>
