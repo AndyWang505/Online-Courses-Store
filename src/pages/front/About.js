@@ -70,50 +70,44 @@ function About() {
           </p>
           <div className="md:flex justify-between md:space-x-4">
             <Swiper
-                slidesPerView={4}
-                spaceBetween={3}
-                pagination={{ clickable: true }}
-                modules={[Pagination]}
-                className="mySwiper"
-                autoplay={{
-                  delay: 500,
-                  disableOnInteraction: false
-                }}
-                breakpoints={{
-                  1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 3,
-                  },
-                  768: {
-                    slidesPerView: 3,
-                    spaceBetween: 5,
-                  },
-                  640: {
-                    slidesPerView: 2,
-                    spaceBetween: 5,
-                  },
-                  320: {
-                    slidesPerView: 1,
-                    spaceBetween: 5,
-                  },
-                }}
-              >
-              {teachers.map((item) => {
-                return (
-                  <SwiperSlide className="pb-16" key={item.name}>
-                    <div className="w-full px-3 mb-4">
-                      <div className="border-0 relative">
-                        <img src={item.imageURL} className="h-96 object-cover sm:h-auto w-full rounded-xl relative" alt="..." />
-                        <div className="p-4 mr-4 bg-white border rounded-xl shadow-md absolute -bottom-16 -left-4 z-100">
-                          <h4 className="mb-2">{item.name}</h4>
-                          <hr />
-                          <p className="card-text text-gray-500 pt-2 mb-0">{item.description}</p>
-                        </div>
+              slidesPerView={4}
+              spaceBetween={10}
+              pagination={{ clickable: true }}
+              modules={[Pagination]}
+              className="mySwiper"
+              autoplay={{
+                delay: 500,
+                disableOnInteraction: false
+              }}
+              breakpoints={{
+                1024: {
+                  slidesPerView: 4,
+                },
+                768: {
+                  slidesPerView: 3,
+                },
+                640: {
+                  slidesPerView: 2,
+                },
+                320: {
+                  slidesPerView: 1,
+                },
+              }}
+            >
+              {teachers.map((item) => (
+                <SwiperSlide className="pb-16" key={item.name}>
+                  <div className="w-full px-3 mb-4">
+                    <div className="border-0 relative">
+                      <img src={item.imageURL} className="aspect-w-4 aspect-h-3 object-cover w-full rounded-xl" alt={item.name} />
+                      <div className="p-4 mr-4 bg-white border rounded-xl shadow-md absolute -bottom-16 -left-4 z-100">
+                        <h4 className="mb-2">{item.name}</h4>
+                        <hr />
+                        <p className="card-text text-gray-500 pt-2 mb-0">{item.description}</p>
                       </div>
                     </div>
-                  </SwiperSlide>
-                )
-              })}
+                  </div>
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
         </div>

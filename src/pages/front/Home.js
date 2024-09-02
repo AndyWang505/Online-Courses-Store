@@ -231,7 +231,7 @@ function Home() {
           <div className="md:flex justify-between md:space-x-4">
             <Swiper
               slidesPerView={4}
-              spaceBetween={3}
+              spaceBetween={10}
               pagination={{ clickable: true }}
               modules={[Pagination]}
               className="mySwiper"
@@ -242,28 +242,23 @@ function Home() {
               breakpoints={{
                 1024: {
                   slidesPerView: 4,
-                  spaceBetween: 3,
                 },
                 768: {
                   slidesPerView: 3,
-                  spaceBetween: 5,
                 },
                 640: {
                   slidesPerView: 2,
-                  spaceBetween: 5,
                 },
                 320: {
                   slidesPerView: 1,
-                  spaceBetween: 5,
                 },
               }}
             >
-            {teachers.map((item) => {
-              return (
+              {teachers.map((item) => (
                 <SwiperSlide className="pb-16" key={item.name}>
                   <div className="w-full px-3 mb-4">
                     <div className="border-0 relative">
-                      <img src={item.imageURL} className="h-96 object-cover sm:h-auto w-full rounded-xl relative" alt="..." />
+                      <img src={item.imageURL} className="aspect-w-4 aspect-h-3 object-cover w-full rounded-xl" alt={item.name} />
                       <div className="p-4 mr-4 bg-white border rounded-xl shadow-md absolute -bottom-16 -left-4 z-100">
                         <h4 className="mb-2">{item.name}</h4>
                         <hr />
@@ -272,9 +267,9 @@ function Home() {
                     </div>
                   </div>
                 </SwiperSlide>
-              )
-            })}
+              ))}
             </Swiper>
+
           </div>
         </div>
         <div>
