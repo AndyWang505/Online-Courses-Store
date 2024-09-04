@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
 import { getCartData } from "../../api/front"
+import MessageToast from "../../components/MessageToast";
 
 function Layout() {
   const [cartData, setCartData] = useState({});
@@ -22,6 +23,7 @@ function Layout() {
   return (
     <>
     <Navbar cartData={cartData} />
+    <MessageToast />
     <Outlet context={{ getCart, cartData }}></Outlet>
     <footer className="bg-slate-800">
       <div className="container mx-auto flex justify-around text-white text-center p-6">

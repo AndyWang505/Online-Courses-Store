@@ -1,6 +1,8 @@
-import { useContext, useEffect, useState } from "react";
-import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import { useEffect, useState } from "react";
 import { editCouponItem, postCoupon } from "../api/admin";
+// Slice
+import { useDispatch } from "react-redux";
+import { createMessage } from "../slice/messageSlice";
 
 function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
   const [tempData, setTempData] = useState({
@@ -11,7 +13,7 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
     code: '',
   });
   const [date, setDate] = useState(new Date());
-  const [, dispatch] = useContext(MessageContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (type === 'create'){
@@ -52,17 +54,18 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
 
   const submit = async () => {
     try {
+      let res;
       if (type === 'create') {
-        await postCoupon({...tempData, due_date: date.getTime()});
+        res = await postCoupon({...tempData, due_date: date.getTime()});
       } else if (type === 'edit') {
-        await editCouponItem(tempCoupon.id, {...tempData, due_date: date.getTime()});
+        res = await editCouponItem(tempCoupon.id, {...tempData, due_date: date.getTime()});
       }
-      handleSuccessMessage(dispatch, '已更新資料');
+      dispatch(createMessage(res.data));
       closeModal();
       getCoupons();
     } catch (error) {
       console.error(error.response.data.message);
-      handleErrorMessage(dispatch, error);
+      dispatch(createMessage(error.response.data));
     }
   };
 

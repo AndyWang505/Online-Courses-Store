@@ -1,6 +1,8 @@
-import { useContext, useEffect, useState } from "react";
-import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import { useEffect, useState } from "react";
 import { editOrderItem } from "../api/admin";
+// Slice
+import { useDispatch } from "react-redux";
+import { createMessage } from "../slice/messageSlice";
 
 function OrderModal({ closeProductModal, getOrders, tempOrder }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,7 +11,7 @@ function OrderModal({ closeProductModal, getOrders, tempOrder }) {
     status: 0,
     ...tempOrder,
   });
-  const [, dispatch] = useContext(MessageContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTempData({
@@ -34,14 +36,14 @@ function OrderModal({ closeProductModal, getOrders, tempOrder }) {
     try {
       const res = await editOrderItem(tempOrder.id, { ...tempData });
       // console.log(tempData);
-      handleSuccessMessage(dispatch, res);
+      dispatch(createMessage(res.data));
       setIsLoading(false);
       closeProductModal();
       getOrders();
     } catch (error) {
       console.log(error);
       setIsLoading(false);
-      handleErrorMessage(dispatch, error);
+      dispatch(createMessage(error.response.data));
     }
   };
 

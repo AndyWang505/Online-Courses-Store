@@ -1,9 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductModal from "../../components/ProductModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
 import { getAllProducts, deleteProductItem } from "../../api/admin";
-import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../../store/messageStore";
+// Slice
+import { useDispatch } from "react-redux";
+import { createMessage } from "../../slice/messageSlice";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -12,7 +14,7 @@ function AdminProducts() {
   const [type, setType] = useState('create');
   const [tempProduct, setTempProduct] = useState({});
 
-  const [, dispatch] = useContext(MessageContext);
+  const dispatch = useDispatch();
 
   const productModal = document.querySelector('#productModal');
   const deleteModal = document.querySelector('#deleteModal');
@@ -61,13 +63,13 @@ function AdminProducts() {
       const res = await deleteProductItem(id);
       console.log(res);
       if(res.data.success) {
+        dispatch(createMessage(res.data));
         getProducts();
         modalHide(deleteModal);
-        handleSuccessMessage(dispatch, '已刪除資料');
       }
     }catch(error) {
       console.error(error);
-      handleErrorMessage(dispatch, error);
+      dispatch(createMessage(error.response.data));
     }
   }
 

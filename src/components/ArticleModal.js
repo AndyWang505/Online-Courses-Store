@@ -1,6 +1,8 @@
-import { useContext, useEffect, useState } from "react";
-import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import { useEffect, useState } from "react";
 import { editArticleItem, postArticle, updateArticle } from "../api/admin"
+// Slice
+import { useDispatch } from "react-redux";
+import { createMessage } from "../slice/messageSlice";
 
 function ArticleModal({ closeProductModal, getProducts, type, tempProduct }) {
   const [tempData, setTempData] = useState({
@@ -13,7 +15,7 @@ function ArticleModal({ closeProductModal, getProducts, type, tempProduct }) {
     "content": "",
     "isPublic": false,
   });
-  const [, dispatch] = useContext(MessageContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (type === 'create'){
@@ -50,17 +52,18 @@ function ArticleModal({ closeProductModal, getProducts, type, tempProduct }) {
 
   const submit = async() => {
     try {
+      let res;
       if (type === 'create') {
-        await postArticle(tempData);
+        res = await postArticle(tempData);
       } else if (type === 'edit') {
-        await editArticleItem(tempProduct.id, tempData);
+        res = await editArticleItem(tempProduct.id, tempData);
       }
-      handleSuccessMessage(dispatch, '已更新資料');
+      dispatch(createMessage(res.data));
       closeProductModal();
       getProducts();
     } catch (error) {
       console.error(error.response.data.message);
-      handleErrorMessage(dispatch, error);
+      dispatch(createMessage(error.response.data));
     }
   };
 

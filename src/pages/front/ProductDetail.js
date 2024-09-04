@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import { getProduct, postCart } from "../../api/front";
+// Slice
+import { useDispatch } from "react-redux";
+import { createMessage } from "../../slice/messageSlice";
+
 
 function ProductDetail() {
   const [product, setProduct] = useState([]);
@@ -8,6 +12,7 @@ function ProductDetail() {
   const [isInCart, setIsInCart] = useState();
   const { id } = useParams();
   const { cartData, getCart } = useOutletContext();
+  const dispatch = useDispatch();
 
   const addToCart = async() => {
     const data = {
@@ -25,6 +30,7 @@ function ProductDetail() {
       }else {
         // cart api issues: the backend quantity has already been added.
         const res = await postCart(data);
+        dispatch(createMessage(res.data));
         localStorage.setItem('coupon', JSON.stringify({
           code: "",
           finalTotal: cartData.total + res.data.data.total,
@@ -35,6 +41,7 @@ function ProductDetail() {
       }
     } catch (error) {
       console.error(error);
+      dispatch(createMessage(error.response.data));
     }
   }
 

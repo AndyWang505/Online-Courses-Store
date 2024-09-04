@@ -3,7 +3,6 @@ import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
 import { MessageContext } from "../store/messageStore";
 
-
 const messageSwal = withReactContent(Swal)
 function Message() {
   // const [message, setMessage] = useState({ type: '', title: '', text: '' })

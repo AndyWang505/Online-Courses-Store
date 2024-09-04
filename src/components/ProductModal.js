@@ -1,6 +1,8 @@
-import { useContext, useEffect, useState } from "react";
-import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import { useEffect, useState } from "react";
 import { editProductItem, postProduct, updateProduct } from "../api/admin";
+// Slice
+import { useDispatch } from "react-redux";
+import { createMessage } from "../slice/messageSlice";
 
 function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   const [tempData, setTempData] = useState({
@@ -14,7 +16,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     "is_enabled": 0,
     "imageUrl": "",
   });
-  const [, dispatch] = useContext(MessageContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (type === 'create'){
@@ -53,20 +55,21 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
       })
     }
   };
-  console.log(type);
+  // console.log(type);
   const submit = async() => {
-    try {    
+    try {
+      let res;
       if (type === 'create') {    
-        await postProduct(tempData);
+        res = await postProduct(tempData);
       } else if (type === 'edit') {
-        await editProductItem(tempProduct.id, tempData);
+        res = await editProductItem(tempProduct.id, tempData);
       }
-      handleSuccessMessage(dispatch, '已更新資料');
+      dispatch(createMessage(res.data));
       closeProductModal();
       getProducts();
     } catch (error) {
       console.error(error.response.data.message);
-      handleErrorMessage(dispatch, error);
+      dispatch(createMessage(error.response.data));
     }
   };
 
