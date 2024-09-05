@@ -3,19 +3,22 @@ import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { Input, Select, CheckboxRadio } from "../../components/FormElements";
 import { useEffect, useState } from "react";
 import { postOrder } from "../../api/front";
+// Slice
+import { useDispatch, useSelector } from "react-redux";
+import { storeOrder } from "../../slice/orderSlice";
 
 function Checkout() {
   const { cartData, getCart } = useOutletContext();
   const [ finalTotal, setFinalTotal] = useState(cartData.final_total);
+  // get orderSlice isCouponCleared
+  const isCouponCleared = useSelector((state) => state.order.isCouponCleared);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const savedCoupon = localStorage.getItem('coupon');
-    if (savedCoupon) {
-      const { finalTotal, isCouponCleared } = JSON.parse(savedCoupon);
-      setFinalTotal(isCouponCleared ? cartData.total : finalTotal);
-    }
+    dispatch(storeOrder(cartData));
+    setFinalTotal(isCouponCleared ? cartData.total : Math.floor(cartData.final_total));
     getCart();
-  }, [getCart, cartData.final_total, cartData.total]);
+  }, [getCart, cartData, cartData.final_total, cartData.total, isCouponCleared, dispatch]);
 
   const {
     register,
@@ -75,7 +78,10 @@ function Checkout() {
                   );
                 })}
               </ul>
-              <div>總額 NT$ {Math.floor(finalTotal)}</div>
+              <div>
+                <p>{isCouponCleared ? '' : '已用優惠券折價'}</p>
+                <p>總額 NT$ {Math.floor(finalTotal)}</p>
+              </div>
             </div>
             <form action="" className="md:w-2/4 p-6 rounded-md bg-neutral-50 drop-shadow" onSubmit={handleSubmit(onSubmit)}>
               <h2 className="text-xl font-bold mb-4">購買人資訊</h2>

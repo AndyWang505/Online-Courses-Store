@@ -4,6 +4,7 @@ import { getProduct, postCart } from "../../api/front";
 // Slice
 import { useDispatch } from "react-redux";
 import { createMessage } from "../../slice/messageSlice";
+import { storeOrder, setIsCouponCleared } from "../../slice/orderSlice";
 
 
 function ProductDetail() {
@@ -31,11 +32,8 @@ function ProductDetail() {
         // cart api issues: the backend quantity has already been added.
         const res = await postCart(data);
         dispatch(createMessage(res.data));
-        localStorage.setItem('coupon', JSON.stringify({
-          code: "",
-          finalTotal: cartData.total + res.data.data.total,
-          isCouponCleared : true,
-        }));
+        dispatch(storeOrder(res.data.data));
+        dispatch(setIsCouponCleared(true))
         getCart();
         setIsLoading(false);
       }

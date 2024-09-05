@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { deleteCartItem, postCoupon } from "../../api/front"
+// Slice
+import { useDispatch, useSelector } from "react-redux";
+import { storeOrder, setIsCouponCleared } from "../../slice/orderSlice";
 
 function Cart() {
   const { cartData, getCart } = useOutletContext();
   const [couponCode, setCouponCode] = useState('');
   const [finalTotal, setFinalTotal] = useState(null);
   const [message, setMessage] = useState('');
-  const [isCouponCleared, setIsCouponCleared] = useState(false);
+  // get orderSlice isCouponCleared
+  const isCouponCleared = useSelector((state) => state.order.isCouponCleared);
+  console.log(isCouponCleared);
+  
+  const dispatch = useDispatch();
 
   const removeCartItem = async (id) => {
     try {
       await deleteCartItem(id);
       getCart();
-      localStorage.setItem('coupon', JSON.stringify({
-        code: "",
-        finalTotal: cartData.total,
-        isCouponCleared : true,
-      }));
+      setFinalTotal(cartData.total);
+      dispatch(storeOrder(cartData));
+      dispatch(setIsCouponCleared(true));
     } catch (error) {
       console.log(error);
     }
@@ -27,48 +32,34 @@ function Cart() {
     try {
       const res = await postCoupon(couponCode);
       setFinalTotal(res.data.data.final_total);
-      setMessage("已套用優惠券");
+      dispatch(storeOrder(res.data));
+      dispatch(setIsCouponCleared(false));
+      setMessage("優惠券已套用");
       getCart();
-      localStorage.setItem('coupon', JSON.stringify({
-        code: couponCode,
-        finalTotal: Math.floor(res.data.data.final_total),
-        isCouponCleared : false,
-      }));
       setIsCouponCleared(false);
     } catch (error) {
-      localStorage.setItem('coupon', JSON.stringify({
-        code: "",
-        finalTotal: cartData.total,
-        isCouponCleared : true,
-      }));
+      setCouponCode('');
+      setFinalTotal(cartData.total);
+      dispatch(setIsCouponCleared(true));
       setMessage("優惠碼有誤");
       console.log(error);
     }
   }
 
   const clearCoupon = async () => {
-    localStorage.setItem('coupon', JSON.stringify({
-      code: "",
-      finalTotal: cartData.total,
-      isCouponCleared : true,
-    }));
     setCouponCode('');
     setFinalTotal(cartData.total);
+    dispatch(storeOrder(cartData));
+    dispatch(setIsCouponCleared(true));
     setMessage("");
-    setIsCouponCleared(true);
     getCart();
   }
 
   useEffect(() => {
-    const savedCoupon = localStorage.getItem('coupon');
-    if (savedCoupon) {
-      const { code, finalTotal, isCouponCleared } = JSON.parse(savedCoupon);
-      setCouponCode(code);
-      setFinalTotal(isCouponCleared ? cartData.total : finalTotal);
-      setIsCouponCleared(isCouponCleared);
-      setMessage(isCouponCleared ? '' : '優惠券已套用');
-    }
-  }, [cartData.total]);
+    dispatch(storeOrder(cartData));
+    setFinalTotal(isCouponCleared ? cartData.total : Math.floor(cartData.final_total));
+    setMessage(isCouponCleared ? '' : '優惠券已套用');
+  }, [getCart, cartData, isCouponCleared, dispatch]);
 
   return (
     <div className="container min-h-screen max-w-7xl mx-auto mb-7 mt-5 p-6">
