@@ -42,6 +42,7 @@
 * React
 * React Hooks
 * React Router
+* Redux Toolkit
 * React Hook Form
 * React Loading Skeleton
 * ESLint
