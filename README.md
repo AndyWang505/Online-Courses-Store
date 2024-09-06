@@ -10,6 +10,8 @@
 ### 專案 src 結構
 
 ```
+src/
+│
 │  App.js
 │  App.test.js
 │  index.js
@@ -40,7 +42,7 @@
 * App.js：動態路由設置之元件。
 * store.js：設定及管理 Redux Toolkit 的全域狀態。
 * api/：用於存放所有 API 請求相關的檔案。
-* assets/：儲存靜態資源，例如：圖片和 SVG 檔案。
+* assets/：存放靜態資源，例如：圖片和 SVG 檔案。
 * components/：可重複利用之通用元件。
 * pages/：主要的頁面結構和畫面。
 * pages/Login.js：登入頁面。
